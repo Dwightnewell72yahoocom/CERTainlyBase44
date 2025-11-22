@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Calendar, User, Hash, Trash2, ExternalLink } from "lucide-react";
+import { FileText, Calendar, User, Hash, Trash2, ExternalLink, Share2 } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import StatusBadge from "./StatusBadge";
+import DocumentShareDialog from "./DocumentShareDialog";
 
 const categoryColors = {
     electrical: "bg-blue-50 text-blue-700 border-blue-200",
@@ -19,7 +20,22 @@ const categoryColors = {
 };
 
 export default function CertificationCard({ certification, onDelete }) {
+    const [shareDialogOpen, setShareDialogOpen] = useState(false);
+    const [selectedDocument, setSelectedDocument] = useState(null);
+
+    const handleShareDocument = (url, index) => {
+        setSelectedDocument({ url, name: `${certification.certification_name} - Document ${index + 1}` });
+        setShareDialogOpen(true);
+    };
+
     return (
+        <>
+        <DocumentShareDialog 
+            open={shareDialogOpen}
+            onOpenChange={setShareDialogOpen}
+            documentUrl={selectedDocument?.url}
+            documentName={selectedDocument?.name}
+        />
         <Card className="hover:shadow-lg transition-all duration-300 border-l-4 border-l-blue-600">
             <CardHeader className="pb-3">
                 <div className="flex items-start justify-between">
@@ -85,22 +101,35 @@ export default function CertificationCard({ certification, onDelete }) {
                         </div>
                         <div className="flex flex-wrap gap-2">
                             {certification.document_urls.map((url, idx) => (
-                                <a
-                                    key={idx}
-                                    href={url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 bg-blue-50 px-2 py-1 rounded"
-                                >
-                                    <FileText className="w-3 h-3" />
-                                    Document {idx + 1}
-                                    <ExternalLink className="w-3 h-3" />
-                                </a>
+                                <div key={idx} className="flex items-center gap-1 bg-blue-50 rounded">
+                                    <a
+                                        href={url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 px-2 py-1"
+                                    >
+                                        <FileText className="w-3 h-3" />
+                                        Document {idx + 1}
+                                        <ExternalLink className="w-3 h-3" />
+                                    </a>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-6 w-6 hover:bg-blue-100"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleShareDocument(url, idx);
+                                        }}
+                                    >
+                                        <Share2 className="w-3 h-3 text-blue-600" />
+                                    </Button>
+                                </div>
                             ))}
                         </div>
                     </div>
                 )}
             </CardContent>
         </Card>
+        </>
     );
 }

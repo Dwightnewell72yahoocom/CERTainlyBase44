@@ -5,9 +5,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Upload, X, FileText, Loader2 } from "lucide-react";
+import { Upload, X, FileText, Loader2, Share2 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { toast } from "sonner";
+import DocumentShareDialog from "./DocumentShareDialog";
 
 export default function AddCertificationForm({ onSuccess, onCancel }) {
     const [formData, setFormData] = useState({
@@ -22,6 +23,13 @@ export default function AddCertificationForm({ onSuccess, onCancel }) {
     });
     const [uploading, setUploading] = useState(false);
     const [submitting, setSubmitting] = useState(false);
+    const [shareDialogOpen, setShareDialogOpen] = useState(false);
+    const [selectedDocument, setSelectedDocument] = useState(null);
+
+    const handleShareDocument = (url, index) => {
+        setSelectedDocument({ url, name: `Document ${index + 1}` });
+        setShareDialogOpen(true);
+    };
 
     const handleFileUpload = async (e) => {
         const files = Array.from(e.target.files);
@@ -74,6 +82,13 @@ export default function AddCertificationForm({ onSuccess, onCancel }) {
     };
 
     return (
+        <>
+        <DocumentShareDialog 
+            open={shareDialogOpen}
+            onOpenChange={setShareDialogOpen}
+            documentUrl={selectedDocument?.url}
+            documentName={selectedDocument?.name}
+        />
         <Card className="shadow-xl border-2">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 border-b">
                 <CardTitle className="text-xl">Add New Certification</CardTitle>
@@ -202,14 +217,24 @@ export default function AddCertificationForm({ onSuccess, onCancel }) {
                                             <FileText className="w-4 h-4 text-blue-600" />
                                             <span className="text-sm text-gray-700">Document {idx + 1}</span>
                                         </div>
-                                        <Button
-                                            type="button"
-                                            variant="ghost"
-                                            size="icon"
-                                            onClick={() => removeDocument(idx)}
-                                        >
-                                            <X className="w-4 h-4" />
-                                        </Button>
+                                        <div className="flex items-center gap-1">
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={() => handleShareDocument(url, idx)}
+                                            >
+                                                <Share2 className="w-4 h-4 text-blue-600" />
+                                            </Button>
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={() => removeDocument(idx)}
+                                            >
+                                                <X className="w-4 h-4" />
+                                            </Button>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -238,5 +263,6 @@ export default function AddCertificationForm({ onSuccess, onCancel }) {
                 </form>
             </CardContent>
         </Card>
+        </>
     );
 }
