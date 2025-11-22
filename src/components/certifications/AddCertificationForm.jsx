@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Upload, X, FileText, Loader2, Share2 } from "lucide-react";
+import { Upload, X, FileText, Loader2, Share2, Camera, Image, FileImage } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { toast } from "sonner";
 import DocumentShareDialog from "./DocumentShareDialog";
@@ -50,6 +50,25 @@ export default function AddCertificationForm({ onSuccess, onCancel }) {
             toast.success(`${files.length} document(s) uploaded`);
         } catch (error) {
             toast.error('Failed to upload documents');
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    const handleCameraCapture = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setUploading(true);
+        try {
+            const result = await base44.integrations.Core.UploadFile({ file });
+            setFormData(prev => ({
+                ...prev,
+                document_urls: [...prev.document_urls, result.file_url]
+            }));
+            toast.success('Photo captured and uploaded');
+        } catch (error) {
+            toast.error('Failed to upload photo');
         } finally {
             setUploading(false);
         }
@@ -181,11 +200,12 @@ export default function AddCertificationForm({ onSuccess, onCancel }) {
 
                     <div className="space-y-3">
                         <Label>Proof of Experience Documents</Label>
-                        <div className="flex items-center gap-3">
+                        <p className="text-sm text-gray-600">Upload certification documents via photo, camera, PDF, or Word</p>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                             <Button
                                 type="button"
                                 variant="outline"
-                                className="relative"
+                                className="relative h-auto py-4 flex flex-col items-center gap-2"
                                 disabled={uploading}
                             >
                                 <input
@@ -193,22 +213,69 @@ export default function AddCertificationForm({ onSuccess, onCancel }) {
                                     multiple
                                     onChange={handleFileUpload}
                                     className="absolute inset-0 opacity-0 cursor-pointer"
-                                    accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                                    accept="image/*"
                                 />
-                                {uploading ? (
-                                    <>
-                                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                        Uploading...
-                                    </>
-                                ) : (
-                                    <>
-                                        <Upload className="w-4 h-4 mr-2" />
-                                        Upload Documents
-                                    </>
-                                )}
+                                <Image className="w-5 h-5 text-blue-600" />
+                                <span className="text-xs">Photos</span>
                             </Button>
-                            <span className="text-sm text-gray-500">PDF, JPG, PNG, DOC accepted</span>
+
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="relative h-auto py-4 flex flex-col items-center gap-2"
+                                disabled={uploading}
+                            >
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    capture="environment"
+                                    onChange={handleCameraCapture}
+                                    className="absolute inset-0 opacity-0 cursor-pointer"
+                                />
+                                <Camera className="w-5 h-5 text-green-600" />
+                                <span className="text-xs">Camera</span>
+                            </Button>
+
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="relative h-auto py-4 flex flex-col items-center gap-2"
+                                disabled={uploading}
+                            >
+                                <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload}
+                                    className="absolute inset-0 opacity-0 cursor-pointer"
+                                    accept=".pdf"
+                                />
+                                <FileText className="w-5 h-5 text-red-600" />
+                                <span className="text-xs">PDF</span>
+                            </Button>
+
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="relative h-auto py-4 flex flex-col items-center gap-2"
+                                disabled={uploading}
+                            >
+                                <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload}
+                                    className="absolute inset-0 opacity-0 cursor-pointer"
+                                    accept=".doc,.docx,.txt"
+                                />
+                                <FileImage className="w-5 h-5 text-purple-600" />
+                                <span className="text-xs">Word/Doc</span>
+                            </Button>
                         </div>
+                        {uploading && (
+                            <div className="flex items-center gap-2 text-sm text-blue-600">
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                                <span>Uploading documents...</span>
+                            </div>
+                        )}
                         {formData.document_urls.length > 0 && (
                             <div className="space-y-2">
                                 {formData.document_urls.map((url, idx) => (
