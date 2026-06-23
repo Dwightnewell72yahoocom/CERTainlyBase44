@@ -35,10 +35,10 @@ export default function RenewalPortal() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
-      <div className="bg-blue-600 text-white px-4 pt-10 pb-4">
-        <h1 className="text-xl font-bold">NRCan Renewal Portal</h1>
-        <p className="text-blue-200 text-sm">One-tap access to certification renewal</p>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: '#f7f4ee' }}>
+      <div className="px-4 pt-10 pb-4 sticky top-0 z-10" style={{ backgroundColor: '#5a5f38' }}>
+        <h1 className="text-xl font-bold" style={{ color: '#F5EDD6' }}>NRCan Renewal Portal</h1>
+        <p className="text-sm" style={{ color: 'rgba(232,160,32,0.8)' }}>One-tap access to certification renewal</p>
       </div>
 
       <div className="px-4 pt-4 space-y-4">
@@ -123,7 +123,8 @@ export default function RenewalPortal() {
           )}
 
           <Button
-            className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-base"
+            className="w-full h-12 text-base font-bold"
+          style={{ backgroundColor: '#5a5f38', color: '#E8A020' }}
             onClick={() => window.open(buildRenewalUrl(selected), '_blank')}
           >
             <ExternalLink className="w-5 h-5 mr-2" />

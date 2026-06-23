@@ -33,11 +33,11 @@ export default function ExperienceLog() {
   const activeConfig = TAB_CONFIG[activeTab];
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
+    <div className="min-h-screen pb-24" style={{ backgroundColor: '#f7f4ee' }}>
       {/* Header */}
-      <div className="bg-blue-600 text-white px-4 pt-10 pb-4 sticky top-0 z-10">
-        <h1 className="text-xl font-bold">Experience & Training Log</h1>
-        <p className="text-blue-200 text-sm">NRCan CAN/CGSB-48.9712-2022</p>
+      <div className="px-4 pt-10 pb-4 sticky top-0 z-10" style={{ backgroundColor: '#5a5f38' }}>
+        <h1 className="text-xl font-bold" style={{ color: '#F5EDD6' }}>Experience & Training Log</h1>
+        <p className="text-sm" style={{ color: 'rgba(232,160,32,0.8)' }}>NRCan CAN/CGSB-48.9712-2022</p>
       </div>
 
       <div className="px-4 pt-4 space-y-4">
@@ -46,73 +46,81 @@ export default function ExperienceLog() {
 
         {/* Technician Name Input (if not set) */}
         {!techName && (
-          <div className="bg-amber-50 border border-amber-200 rounded-xl p-3">
-            <p className="text-sm text-amber-800 mb-2 font-medium">Enter your name to log entries</p>
+          <div className="rounded-xl p-3 border" style={{ backgroundColor: 'rgba(90,95,56,0.08)', borderColor: 'rgba(232,160,32,0.3)' }}>
+            <p className="text-sm font-medium mb-2" style={{ color: '#5a5f38' }}>Enter your name to log entries</p>
             <div className="flex gap-2">
               <input
-                className="flex-1 border border-amber-300 rounded-lg px-3 py-2 text-sm"
+                className="flex-1 border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2"
+                style={{ borderColor: 'rgba(90,95,56,0.3)' }}
                 placeholder="Your name..."
                 onKeyDown={e => e.key === 'Enter' && setTechName(e.target.value)}
                 onBlur={e => e.target.value && setTechName(e.target.value)}
               />
-              <Button size="sm" className="bg-amber-500 hover:bg-amber-600 text-white" onClick={(e) => setTechName(e.currentTarget.previousElementSibling.value)}>Set</Button>
+              <Button size="sm" className="font-bold" style={{ backgroundColor: '#E8A020', color: '#5a5f38' }}
+                onClick={(e) => setTechName(e.currentTarget.previousElementSibling.value)}>Set</Button>
             </div>
           </div>
         )}
 
         {/* Tab Selector — horizontal scroll */}
-        <div className="overflow-x-auto -mx-4 px-4">
-          <div className="flex gap-2 pb-1 min-w-max">
+        <div className="overflow-x-auto -mx-4 px-4 bg-white shadow-sm border-b border-gray-100">
+          <div className="flex min-w-max">
             {TABS.map(tab => (
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
-                  activeTab === tab.key
-                    ? 'bg-blue-600 text-white shadow'
-                    : 'bg-white text-gray-600 border border-gray-200'
-                }`}
+                className="flex flex-col items-center px-4 py-2.5 whitespace-nowrap transition-all relative"
+                style={{
+                  color: activeTab === tab.key ? '#E8A020' : '#5a5f38',
+                  fontWeight: activeTab === tab.key ? 700 : 500,
+                  fontSize: '0.875rem',
+                }}
               >
-                <span className="opacity-60">{tab.num}.</span> {tab.label}
-                <span className={`text-xs px-1.5 py-0.5 rounded-full ${activeTab === tab.key ? 'bg-blue-500 text-blue-100' : 'bg-gray-100 text-gray-500'}`}>
+                <span>{tab.num}. {tab.label}</span>
+                <span className="text-xs mt-0.5" style={{ color: activeTab === tab.key ? '#E8A020' : 'rgba(90,95,56,0.5)' }}>
                   {totals.byType[tab.key] || 0}pts
                 </span>
+                {activeTab === tab.key && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 rounded-t" style={{ backgroundColor: '#E8A020' }} />
+                )}
               </button>
             ))}
           </div>
         </div>
 
         {/* Active Tab Header */}
-        <div className="bg-white rounded-xl border border-gray-200 p-4">
+        <div className="bg-white rounded-2xl border border-gray-200 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="font-semibold text-gray-900">{activeConfig.label}</h2>
-              <p className="text-xs text-gray-500 mt-0.5">{activeConfig.description} · {activeConfig.pointsRule}</p>
+              <h2 className="font-bold text-gray-900">{activeConfig.label}</h2>
+              <p className="text-xs text-gray-500 mt-0.5">{activeConfig.description}</p>
+              <p className="text-xs mt-0.5 font-medium" style={{ color: '#5a5f38' }}>{activeConfig.pointsRule}</p>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-bold text-blue-600">{totals.byType[activeTab] || 0}</div>
-              <div className="text-xs text-gray-400">/ {activeConfig.maxPoints} pts max</div>
+              <div className="text-3xl font-black" style={{ color: '#E8A020' }}>{totals.byType[activeTab] || 0}</div>
+              <div className="text-xs text-gray-400">/ {activeConfig.maxPoints} max</div>
             </div>
           </div>
         </div>
 
         {/* Add Button */}
-        <Button
+        <button
           onClick={() => setShowAdd(true)}
           disabled={!techName}
-          className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-base"
+          className="w-full py-4 rounded-2xl font-bold text-base flex items-center justify-center gap-2 disabled:opacity-40 active:scale-98 transition-transform"
+          style={{ backgroundColor: '#5a5f38', color: '#E8A020' }}
         >
-          <Plus className="w-5 h-5 mr-2" />
+          <Plus className="w-5 h-5" />
           Add {activeConfig.label} Entry
-        </Button>
+        </button>
 
         {/* Entries List */}
         {isLoading ? (
           <div className="text-center py-8">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-600 border-t-transparent" />
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-t-transparent" style={{ borderColor: '#5a5f38', borderTopColor: 'transparent' }} />
           </div>
         ) : activeLogs.length === 0 ? (
-          <div className="text-center py-12 text-gray-400">
+          <div className="text-center py-12" style={{ color: 'rgba(90,95,56,0.4)' }}>
             <p className="text-sm">No entries yet for {activeConfig.label}</p>
           </div>
         ) : (

@@ -48,10 +48,10 @@ export default function EmployerDashboard() {
   }).length;
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
-      <div className="bg-blue-600 text-white px-4 pt-10 pb-4">
-        <h1 className="text-xl font-bold">Employer Dashboard</h1>
-        <p className="text-blue-200 text-sm">Technician cert status by employer</p>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: '#f7f4ee' }}>
+      <div className="px-4 pt-10 pb-4 sticky top-0 z-10" style={{ backgroundColor: '#5a5f38' }}>
+        <h1 className="text-xl font-bold" style={{ color: '#F5EDD6' }}>Employer Dashboard</h1>
+        <p className="text-sm" style={{ color: 'rgba(232,160,32,0.8)' }}>Technician cert status by employer</p>
       </div>
 
       <div className="px-4 pt-4 space-y-4">

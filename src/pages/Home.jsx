@@ -52,31 +52,37 @@ export default function Home() {
     });
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50 pb-24">
-            <div className="max-w-4xl mx-auto px-4 py-6">
-                {/* Header */}
-                <div className="mb-6">
-                    <div className="flex items-center justify-between gap-4">
-                        <div>
-                            <h1 className="text-3xl font-bold text-gray-900">CERTainly</h1>
-                            <p className="text-gray-500 text-sm mt-1">NRCan NDT Certification Tracker</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <ReminderManager certifications={certifications} />
-                            <Button 
-                                onClick={() => setShowForm(!showForm)}
-                                className="bg-blue-600 hover:bg-blue-700 shadow"
-                                size="sm"
-                            >
-                                <Plus className="w-4 h-4 mr-1" />
-                                Add
-                            </Button>
-                        </div>
-                    </div>
+        <div className="min-h-screen pb-24" style={{ backgroundColor: '#f7f4ee' }}>
+            {/* Header */}
+            <div className="px-4 pt-10 pb-4 sticky top-0 z-10 shadow-sm" style={{ backgroundColor: '#5a5f38' }}>
+              <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
+                <div>
+                  <h1 className="text-2xl font-black leading-none">
+                    <span style={{ color: '#E8A020' }}>CERT</span><span style={{ color: '#F5EDD6' }}>ainly</span>
+                  </h1>
+                  <p className="text-xs mt-0.5" style={{ color: 'rgba(245,237,214,0.6)' }}>NRCan NDT Certification Tracker</p>
                 </div>
+                <div className="flex items-center gap-2">
+                  <ReminderManager certifications={certifications} />
+                  <Button
+                    onClick={() => setShowForm(!showForm)}
+                    size="sm"
+                    className="font-bold"
+                    style={{ backgroundColor: '#E8A020', color: '#5a5f38' }}
+                  >
+                    <Plus className="w-4 h-4 mr-1" />
+                    Add
+                  </Button>
+                </div>
+              </div>
+            </div>
+            <div className="max-w-4xl mx-auto px-4 py-4">
+                {/* spacer for old mb-6 header slot */}
+                <div className="mb-0">
 
+                </div>
                 {/* Stats Overview */}
-                <div className="mb-6">
+                <div className="mb-4">
                     <StatsOverview certifications={certifications} />
                 </div>
 
