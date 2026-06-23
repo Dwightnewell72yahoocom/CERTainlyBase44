@@ -7,7 +7,7 @@ import { ExternalLink, RefreshCw, AlertTriangle, User, Hash, Building2 } from "l
 import BottomNav from "@/components/layout/BottomNav";
 import { differenceInDays, isPast, parseISO, format } from "date-fns";
 
-const NRCAN_RENEWAL_URL = "https://www.nrcan.gc.ca/science-data/science-research/science-technology-collaboration/certification-personnel/certification-renewal/22872";
+const NRCAN_RENEWAL_URL = "https://natural-resources.canada.ca/search?keywords=ndt";
 
 export default function RenewalPortal() {
   const [selectedCertId, setSelectedCertId] = useState('');
