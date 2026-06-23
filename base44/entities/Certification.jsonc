@@ -1,0 +1,79 @@
+{
+  "name": "Certification",
+  "type": "object",
+  "properties": {
+    "technician_name": {
+      "type": "string"
+    },
+    "technician_email": {
+      "type": "string",
+      "format": "email"
+    },
+    "certification_name": {
+      "type": "string"
+    },
+    "certification_number": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "electrical",
+        "mechanical",
+        "safety",
+        "hvac",
+        "welding",
+        "quality",
+        "forklift",
+        "first_aid",
+        "ndt_ut",
+        "ndt_rt",
+        "ndt_mt",
+        "ndt_pt",
+        "ndt_et",
+        "ndt_vt",
+        "ndt_lt",
+        "other"
+      ]
+    },
+    "issue_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "expiry_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "employer_name": {
+      "type": "string"
+    },
+    "employer_email": {
+      "type": "string",
+      "format": "email"
+    },
+    "supervisor_name": {
+      "type": "string"
+    },
+    "supervisor_email": {
+      "type": "string",
+      "format": "email"
+    },
+    "nrcan_id": {
+      "type": "string"
+    },
+    "document_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "technician_name",
+    "certification_name",
+    "expiry_date"
+  ]
+}

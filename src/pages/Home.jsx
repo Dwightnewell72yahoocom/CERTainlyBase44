@@ -12,6 +12,8 @@ import StatsOverview from "../components/certifications/StatsOverview";
 import UpcomingRenewals from "../components/certifications/UpcomingRenewals";
 import CertificationCard from "../components/certifications/CertificationCard";
 import AddCertificationForm from "../components/certifications/AddCertificationForm";
+import ReminderManager from "../components/certifications/ReminderManager";
+import BottomNav from "../components/layout/BottomNav";
 
 export default function Home() {
     const [showForm, setShowForm] = useState(false);
@@ -50,28 +52,31 @@ export default function Home() {
     });
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50 pb-24">
+            <div className="max-w-4xl mx-auto px-4 py-6">
                 {/* Header */}
-                <div className="mb-8">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div className="mb-6">
+                    <div className="flex items-center justify-between gap-4">
                         <div>
-                            <h1 className="text-4xl font-bold text-gray-900 mb-2">Certification Tracker</h1>
-                            <p className="text-gray-600">Monitor renewal dates and manage technician certifications</p>
+                            <h1 className="text-3xl font-bold text-gray-900">CERTainly</h1>
+                            <p className="text-gray-500 text-sm mt-1">NRCan NDT Certification Tracker</p>
                         </div>
-                        <Button 
-                            onClick={() => setShowForm(!showForm)}
-                            className="bg-blue-600 hover:bg-blue-700 shadow-lg"
-                            size="lg"
-                        >
-                            <Plus className="w-5 h-5 mr-2" />
-                            Add Certification
-                        </Button>
+                        <div className="flex items-center gap-2">
+                            <ReminderManager certifications={certifications} />
+                            <Button 
+                                onClick={() => setShowForm(!showForm)}
+                                className="bg-blue-600 hover:bg-blue-700 shadow"
+                                size="sm"
+                            >
+                                <Plus className="w-4 h-4 mr-1" />
+                                Add
+                            </Button>
+                        </div>
                     </div>
                 </div>
 
                 {/* Stats Overview */}
-                <div className="mb-8">
+                <div className="mb-6">
                     <StatsOverview certifications={certifications} />
                 </div>
 
@@ -96,7 +101,7 @@ export default function Home() {
                 </AnimatePresence>
 
                 {/* Upcoming Renewals Alert */}
-                <div className="mb-8">
+                <div className="mb-6">
                     <UpcomingRenewals certifications={certifications} />
                 </div>
 
@@ -132,7 +137,7 @@ export default function Home() {
                 </div>
 
                 {/* Certifications Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <AnimatePresence mode="popLayout">
                         {isLoading ? (
                             <div className="col-span-full text-center py-12">
@@ -161,6 +166,7 @@ export default function Home() {
                     </AnimatePresence>
                 </div>
             </div>
+            <BottomNav />
         </div>
     );
 }

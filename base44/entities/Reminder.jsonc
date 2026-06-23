@@ -1,0 +1,32 @@
+{
+  "name": "Reminder",
+  "type": "object",
+  "properties": {
+    "certification_id": {
+      "type": "string"
+    },
+    "certification_name": {
+      "type": "string"
+    },
+    "technician_name": {
+      "type": "string"
+    },
+    "days_before": {
+      "type": "number"
+    },
+    "sent_at": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "sent",
+        "failed"
+      ]
+    }
+  },
+  "required": [
+    "certification_id",
+    "days_before"
+  ]
+}

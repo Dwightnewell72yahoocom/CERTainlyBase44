@@ -1,0 +1,92 @@
+{
+  "name": "ExperienceLog",
+  "type": "object",
+  "properties": {
+    "technician_name": {
+      "type": "string"
+    },
+    "log_type": {
+      "type": "string",
+      "enum": [
+        "field_work",
+        "training_received",
+        "training_delivered",
+        "research",
+        "seminars",
+        "professional",
+        "mentoring"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "employer": {
+      "type": "string"
+    },
+    "organisation": {
+      "type": "string"
+    },
+    "ndt_method": {
+      "type": "string"
+    },
+    "sector": {
+      "type": "string"
+    },
+    "provider": {
+      "type": "string"
+    },
+    "training_type": {
+      "type": "string",
+      "enum": [
+        "theoretical",
+        "practical",
+        "both"
+      ]
+    },
+    "event_name": {
+      "type": "string"
+    },
+    "organiser": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
+    },
+    "supervisor": {
+      "type": "string"
+    },
+    "mentee_names": {
+      "type": "string"
+    },
+    "membership_id": {
+      "type": "string"
+    },
+    "students_count": {
+      "type": "number"
+    },
+    "hours": {
+      "type": "number"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "description": {
+      "type": "string"
+    },
+    "points": {
+      "type": "number"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "technician_name",
+    "log_type"
+  ]
+}

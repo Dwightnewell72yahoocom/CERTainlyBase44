@@ -1,5 +1,8 @@
 import './App.css'
 import { Toaster } from "@/components/ui/toaster"
+import ExperienceLog from './pages/ExperienceLog';
+import EmployerDashboard from './pages/EmployerDashboard';
+import RenewalPortal from './pages/RenewalPortal';
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import VisualEditAgent from '@/lib/VisualEditAgent'
@@ -60,6 +63,9 @@ const AuthenticatedApp = () => {
           }
         />
       ))}
+      <Route path="/experience-log" element={<LayoutWrapper currentPageName="ExperienceLog"><ExperienceLog /></LayoutWrapper>} />
+      <Route path="/employer-dashboard" element={<LayoutWrapper currentPageName="EmployerDashboard"><EmployerDashboard /></LayoutWrapper>} />
+      <Route path="/renewal-portal" element={<LayoutWrapper currentPageName="RenewalPortal"><RenewalPortal /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { FileText, Calendar, User, Hash, Trash2, ExternalLink, Share2 } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import StatusBadge from "./StatusBadge";
+import CountdownTimer from "./CountdownTimer";
 import DocumentShareDialog from "./DocumentShareDialog";
 
 const categoryColors = {
@@ -45,6 +46,7 @@ export default function CertificationCard({ certification, onDelete }) {
                         </h3>
                         <div className="flex flex-wrap gap-2">
                             <StatusBadge expiryDate={certification.expiry_date} />
+                            <CountdownTimer expiryDate={certification.expiry_date} />
                             {certification.category && (
                                 <Badge 
                                     variant="outline" 
