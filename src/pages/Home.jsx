@@ -57,10 +57,15 @@ export default function Home() {
             <div className="px-4 pt-10 pb-4 sticky top-0 z-10 shadow-sm" style={{ backgroundColor: '#5a5f38' }}>
               <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl font-black leading-none">
-                    <span style={{ color: '#E8A020' }}>CERT</span><span style={{ color: '#F5EDD6' }}>ainly</span>
-                  </h1>
-                  <p className="text-xs mt-0.5" style={{ color: 'rgba(245,237,214,0.6)' }}>NRCan NDT Certification Tracker</p>
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#E8A020' }}>
+                      <span className="text-xs font-black" style={{ color: '#5a5f38' }}>SS</span>
+                    </div>
+                    <h1 className="text-2xl font-black leading-none">
+                      <span style={{ color: '#E8A020' }}>CERT</span><span style={{ color: '#F5EDD6' }}>ainly</span>
+                    </h1>
+                  </div>
+                  <p className="text-xs mt-0.5 pl-10" style={{ color: 'rgba(245,237,214,0.5)' }}>Sound Solutions DataCAT</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <ReminderManager certifications={certifications} />

@@ -132,10 +132,30 @@ export default function RenewalPortal() {
         {/* Direct link */}
         <button
           onClick={() => window.open('https://natural-resources.canada.ca/science-data/non-destructive-testing/non-destructive-testing-certification', '_blank')}
-          className="w-full text-center text-sm text-blue-600 underline py-2"
+          className="w-full text-center text-sm py-2 underline font-medium"
+          style={{ color: '#5a5f38' }}
         >
           Go directly to NRCan portal →
         </button>
+
+        {/* Quick links to renewal tools */}
+        <div className="space-y-2 pt-2">
+          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide px-1">Renewal Tools</h3>
+          {[
+            { label: 'Renewal Checklist', sub: 'Step-by-step NRCan submission guide', path: '/renewal-checklist', emoji: '✅' },
+            { label: 'Attestation Letter', sub: 'Generate NRCan-compliant supervisor letter', path: '/attestation-letter', emoji: '📄' },
+            { label: 'Verify Technician', sub: 'Look up NRCan certified personnel', path: '/nrcan-directory', emoji: '🔍' },
+          ].map(item => (
+            <a key={item.path} href={item.path}
+              className="flex items-center gap-3 bg-white rounded-2xl border border-gray-200 p-4 active:scale-98 transition-transform">
+              <span className="text-2xl">{item.emoji}</span>
+              <div>
+                <div className="font-bold text-gray-900 text-sm">{item.label}</div>
+                <div className="text-xs text-gray-400">{item.sub}</div>
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
       <BottomNav />
     </div>

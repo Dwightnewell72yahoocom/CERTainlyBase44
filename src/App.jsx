@@ -5,6 +5,9 @@ import EmployerDashboard from './pages/EmployerDashboard';
 import RenewalPortal from './pages/RenewalPortal';
 import Splash from './pages/Splash';
 import Points from './pages/Points';
+import AttestationLetter from './pages/AttestationLetter';
+import NRCanDirectory from './pages/NRCanDirectory';
+import RenewalChecklist from './pages/RenewalChecklist';
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import VisualEditAgent from '@/lib/VisualEditAgent'
@@ -69,6 +72,9 @@ const AuthenticatedApp = () => {
       <Route path="/employer-dashboard" element={<LayoutWrapper currentPageName="EmployerDashboard"><EmployerDashboard /></LayoutWrapper>} />
       <Route path="/renewal-portal" element={<LayoutWrapper currentPageName="RenewalPortal"><RenewalPortal /></LayoutWrapper>} />
       <Route path="/points" element={<LayoutWrapper currentPageName="Points"><Points /></LayoutWrapper>} />
+      <Route path="/attestation-letter" element={<LayoutWrapper currentPageName="AttestationLetter"><AttestationLetter /></LayoutWrapper>} />
+      <Route path="/nrcan-directory" element={<LayoutWrapper currentPageName="NRCanDirectory"><NRCanDirectory /></LayoutWrapper>} />
+      <Route path="/renewal-checklist" element={<LayoutWrapper currentPageName="RenewalChecklist"><RenewalChecklist /></LayoutWrapper>} />
       <Route path="/splash" element={<Splash />} />
       <Route path="/dashboard" element={<LayoutWrapper currentPageName={mainPageKey}><MainPage /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
