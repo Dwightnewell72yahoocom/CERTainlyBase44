@@ -131,7 +131,7 @@ export default function RenewalPortal() {
 
         {/* Direct link */}
         <button
-          onClick={() => window.open(NRCAN_RENEWAL_URL, '_blank')}
+          onClick={() => window.open('https://natural-resources.canada.ca/science-data/non-destructive-testing/non-destructive-testing-certification', '_blank')}
           className="w-full text-center text-sm text-blue-600 underline py-2"
         >
           Go directly to NRCan portal →
