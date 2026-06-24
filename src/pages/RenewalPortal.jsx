@@ -7,7 +7,7 @@ import { ExternalLink, RefreshCw, AlertTriangle, User, Hash, Building2 } from "l
 import BottomNav from "@/components/layout/BottomNav";
 import { differenceInDays, isPast, parseISO, format } from "date-fns";
 
-const NRCAN_RENEWAL_URL = "https://natural-resources.canada.ca/search?keywords=ndt";
+const NRCAN_RENEWAL_URL = "https://natural-resources.canada.ca/science-data/science-research/renewing-your-ndt-certification";
 
 export default function RenewalPortal() {
   const [selectedCertId, setSelectedCertId] = useState('');
@@ -25,13 +25,7 @@ export default function RenewalPortal() {
   const selected = certs.find(c => c.id === selectedCertId);
 
   const buildRenewalUrl = (cert) => {
-    if (!cert) return NRCAN_RENEWAL_URL;
-    const params = new URLSearchParams();
-    if (cert.technician_name) params.set('name', cert.technician_name);
-    if (cert.nrcan_id) params.set('id', cert.nrcan_id);
-    if (cert.certification_name) params.set('cert', cert.certification_name);
-    if (cert.employer_name) params.set('employer', cert.employer_name);
-    return `${NRCAN_RENEWAL_URL}?${params.toString()}`;
+    return NRCAN_RENEWAL_URL;
   };
 
   return (
