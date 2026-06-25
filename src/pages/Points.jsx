@@ -4,6 +4,7 @@ import { base44 } from "@/api/base44Client";
 import { computeTotals, TAB_CONFIG, TOTAL_TARGET, CORE_TABS_TARGET } from "@/lib/points";
 import PointsSummary from "@/components/experience/PointsSummary";
 import BottomNav from "@/components/layout/BottomNav";
+import { FileText } from "lucide-react";
 
 export default function Points() {
   const { data: logs = [], isLoading } = useQuery({
@@ -30,6 +31,17 @@ export default function Points() {
         ) : (
           <>
             <PointsSummary totals={totals} />
+
+            {/* Generate SCS Form CTA */}
+            <a href="/scs-form"
+              className="flex items-center justify-between p-4 rounded-2xl border-2 font-bold text-sm"
+              style={{ backgroundColor: '#5a5f38', borderColor: '#5a5f38', color: '#E8A020' }}>
+              <div>
+                <div className="font-black">Generate SCS Form 8.2.1-073</div>
+                <div className="text-xs font-normal mt-0.5" style={{ color: 'rgba(245,237,214,0.6)' }}>Auto-populated from your logged entries</div>
+              </div>
+              <FileText className="w-5 h-5 flex-shrink-0" />
+            </a>
 
             {/* Per-tab detail cards */}
             <div className="space-y-3">
