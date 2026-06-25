@@ -142,6 +142,8 @@ export default function RenewalPortal() {
         <div className="space-y-2 pt-2">
           <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide px-1">Renewal Tools</h3>
           {[
+            { label: 'Form 8.2.1-075 — Renewal Application', sub: 'Auto-populated from your cert record', path: '/renewal-application', emoji: '📋' },
+            { label: 'Form 8.2.1-073 — SCS Points', sub: 'Auto-populated from your logged entries', path: '/scs-form', emoji: '📊' },
             { label: 'Renewal Checklist', sub: 'Step-by-step NRCan submission guide', path: '/renewal-checklist', emoji: '✅' },
             { label: 'Attestation Letter', sub: 'Generate NRCan-compliant supervisor letter', path: '/attestation-letter', emoji: '📄' },
             { label: 'Verify Technician', sub: 'Look up NRCan certified personnel', path: '/nrcan-directory', emoji: '🔍' },

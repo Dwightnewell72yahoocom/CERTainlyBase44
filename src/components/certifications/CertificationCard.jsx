@@ -101,14 +101,24 @@ export default function CertificationCard({ certification, onDelete }) {
           </div>
 
           {/* Start Renewal button */}
-          <button
-            onClick={() => navigate('/renewal-portal')}
-            className="w-full py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 active:scale-98 transition-transform"
-            style={{ backgroundColor: '#5a5f38', color: '#E8A020' }}
-          >
-            <RefreshCw className="w-4 h-4" />
-            Start Renewal
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => navigate(`/renewal-application?cert=${certification.id}`)}
+              className="flex-1 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 active:scale-98 transition-transform"
+              style={{ backgroundColor: '#5a5f38', color: '#E8A020' }}
+            >
+              <RefreshCw className="w-4 h-4" />
+              Renewal Form
+            </button>
+            <button
+              onClick={() => navigate(`/scs-form`)}
+              className="flex-1 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-1 active:scale-98 transition-transform border-2"
+              style={{ borderColor: '#5a5f38', color: '#5a5f38', backgroundColor: 'white' }}
+            >
+              <FileText className="w-4 h-4" />
+              SCS Form
+            </button>
+          </div>
 
           {/* Documents */}
           {certification.document_urls && certification.document_urls.length > 0 && (
