@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Download, Mail, CheckCircle, AlertCircle, Loader2, Copy, Check, ExternalLink } from 'lucide-react';
-import { generateRenewalDataPack } from '@/lib/generateRenewalDataPack';
+import { Download, Mail, CheckCircle, AlertCircle, Loader2, FileText, Check, Copy, ExternalLink } from 'lucide-react';
+import { generateRenewalPackage } from '@/lib/nrcanForms/index';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 
@@ -48,12 +48,12 @@ export default function DownloadRenewalPackage({ cert }) {
     setStatus('loading');
     setErrorMsg('');
     try {
-      const pdfBytes = await generateRenewalDataPack(cert, experienceLogs);
+      const pdfBytes = await generateRenewalPackage(cert, experienceLogs);
       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `NRCan_Renewal_DataPack_${(cert.technician_name || 'Applicant').replace(/\s+/g, '_')}.pdf`;
+      a.download = `NRCan_Renewal_Package_${(cert.technician_name || 'Applicant').replace(/\s+/g, '_')}.pdf`;
       a.click();
       URL.revokeObjectURL(url);
       setStatus('done');
@@ -88,8 +88,8 @@ export default function DownloadRenewalPackage({ cert }) {
     <div className="rounded-2xl border overflow-hidden" style={{ borderColor: '#d1ccc0' }}>
       {/* Header */}
       <div className="px-4 py-3" style={{ backgroundColor: '#6b7040' }}>
-        <p className="font-black text-sm" style={{ color: '#E8A020' }}>Renewal Package</p>
-        <p className="text-xs mt-0.5" style={{ color: 'rgba(245,237,214,0.7)' }}>Download your pre-filled data pack + open official NRCan forms</p>
+        <p className="font-black text-sm" style={{ color: '#E8A020' }}>NRCan Renewal Package</p>
+        <p className="text-xs mt-0.5" style={{ color: 'rgba(245,237,214,0.7)' }}>Pre-filled Forms 8.2.1-075, 8.2.1-073 & 8.2.1-002 — generated from your app data</p>
       </div>
 
       <div className="bg-white p-4 space-y-3">
@@ -98,11 +98,11 @@ export default function DownloadRenewalPackage({ cert }) {
         <div className="rounded-xl overflow-hidden border" style={{ borderColor: '#d1ccc0' }}>
           <div className="px-3 py-2 flex items-center gap-2" style={{ backgroundColor: '#f7f4ee' }}>
             <span className="w-5 h-5 rounded-full text-xs font-black flex items-center justify-center text-white flex-shrink-0" style={{ backgroundColor: '#6b7040' }}>1</span>
-            <p className="text-xs font-black" style={{ color: '#6b7040' }}>Download your pre-filled Data Pack (PDF)</p>
+            <p className="text-xs font-black" style={{ color: '#6b7040' }}>Download Pre-filled NRCan Forms (PDF)</p>
           </div>
           <div className="p-3 space-y-2">
             <p className="text-xs" style={{ color: '#666' }}>
-              Contains all your data organized section-by-section to match each NRCan form — just copy values across.
+              All 3 official NRCan forms in one PDF — fully pre-filled with your data. Print, sign, and send.
             </p>
 
             {status === 'idle' || status === 'done' ? (
@@ -112,12 +112,12 @@ export default function DownloadRenewalPackage({ cert }) {
                 style={{ backgroundColor: '#E8A020', color: '#fff' }}
               >
                 <Download className="w-4 h-4" />
-                {status === 'done' ? 'Download Again' : 'Download Data Pack (.pdf)'}
+                {status === 'done' ? 'Download Again' : 'Download NRCan Package (.pdf)'}
               </button>
             ) : status === 'loading' ? (
               <div className="w-full h-11 rounded-xl flex items-center justify-center gap-2 bg-gray-50">
                 <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
-                <span className="text-sm text-gray-500 font-semibold">Building your data pack…</span>
+                <span className="text-sm text-gray-500 font-semibold">Generating NRCan forms…</span>
               </div>
             ) : (
               <div className="space-y-2">
@@ -134,7 +134,7 @@ export default function DownloadRenewalPackage({ cert }) {
             {status === 'done' && (
               <div className="flex items-start gap-2 rounded-xl p-3" style={{ backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0' }}>
                 <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: '#16a34a' }} />
-                <p className="text-xs font-semibold" style={{ color: '#166534' }}>Data pack downloaded — open it alongside the NRCan forms below</p>
+                <p className="text-xs font-semibold" style={{ color: '#166534' }}>Forms downloaded — review, sign (you + supervisor), then email to NRCan in Step 2.</p>
               </div>
             )}
           </div>
@@ -172,51 +172,31 @@ export default function DownloadRenewalPackage({ cert }) {
           )}
         </div>
 
-        {/* Step 2: Open official forms */}
+        {/* What's included */}
+        <div className="rounded-xl border px-3 py-2 space-y-1" style={{ borderColor: '#d1ccc0', backgroundColor: '#f7f4ee' }}>
+          <p className="text-xs font-black" style={{ color: '#6b7040' }}>What's in the package:</p>
+          {[
+            { code: '8.2.1-075', name: 'Renewal Application Form' },
+            { code: '8.2.1-073', name: 'SCS Points Application Form' },
+            { code: '8.2.1-002', name: 'Code of Conduct' },
+          ].map(f => (
+            <div key={f.code} className="flex items-center gap-2 text-xs">
+              <FileText className="w-3 h-3 flex-shrink-0" style={{ color: '#6b7040' }} />
+              <span className="font-bold" style={{ color: '#6b7040' }}>{f.code}</span>
+              <span style={{ color: '#555' }}>{f.name}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Step 2: Email NRCan */}
         <div className="rounded-xl overflow-hidden border" style={{ borderColor: '#d1ccc0' }}>
           <div className="px-3 py-2 flex items-center gap-2" style={{ backgroundColor: '#f7f4ee' }}>
             <span className="w-5 h-5 rounded-full text-xs font-black flex items-center justify-center text-white flex-shrink-0" style={{ backgroundColor: '#6b7040' }}>2</span>
-            <p className="text-xs font-black" style={{ color: '#6b7040' }}>Open official NRCan forms</p>
+            <p className="text-xs font-black" style={{ color: '#6b7040' }}>Sign & email to NRCan</p>
           </div>
           <div className="p-3 space-y-2">
             <p className="text-xs" style={{ color: '#666' }}>
-              Download the official fillable PDFs from NRCan. Use your Data Pack to fill them quickly.
-            </p>
-            <a
-              href={NRCAN_FORMS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full h-11 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-transform active:scale-95 border"
-              style={{ borderColor: '#6b7040', color: '#6b7040', backgroundColor: 'white' }}
-            >
-              <ExternalLink className="w-4 h-4" />
-              Open NRCan Forms Page
-            </a>
-            <div className="grid grid-cols-1 gap-1 pt-1">
-              {[
-                { code: '8.2.1-075', name: 'Renewal Application' },
-                { code: '8.2.1-073', name: 'SCS Points Application' },
-                { code: '8.2.1-002', name: 'Code of Conduct' },
-              ].map(f => (
-                <div key={f.code} className="flex items-center gap-2 text-xs" style={{ color: '#888' }}>
-                  <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: '#6b7040' }} />
-                  <span className="font-semibold" style={{ color: '#6b7040' }}>{f.code}</span>
-                  <span>{f.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Step 3: Email NRCan */}
-        <div className="rounded-xl overflow-hidden border" style={{ borderColor: '#d1ccc0' }}>
-          <div className="px-3 py-2 flex items-center gap-2" style={{ backgroundColor: '#f7f4ee' }}>
-            <span className="w-5 h-5 rounded-full text-xs font-black flex items-center justify-center text-white flex-shrink-0" style={{ backgroundColor: '#6b7040' }}>3</span>
-            <p className="text-xs font-black" style={{ color: '#6b7040' }}>Email signed forms to NRCan</p>
-          </div>
-          <div className="p-3 space-y-2">
-            <p className="text-xs" style={{ color: '#666' }}>
-              Once all 3 forms are signed (by you + employer), send them to NRCan.
+              Print the package, sign it (you + employer/supervisor), then email all 3 forms to NRCan NDTCB.
             </p>
             <button
               onClick={handleEmail}
