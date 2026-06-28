@@ -133,15 +133,16 @@ export default function Home() {
                             <SelectValue placeholder="All Categories" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="all">All Categories</SelectItem>
-                            <SelectItem value="electrical">Electrical</SelectItem>
-                            <SelectItem value="mechanical">Mechanical</SelectItem>
-                            <SelectItem value="safety">Safety</SelectItem>
-                            <SelectItem value="hvac">HVAC</SelectItem>
-                            <SelectItem value="welding">Welding</SelectItem>
-                            <SelectItem value="quality">Quality</SelectItem>
-                            <SelectItem value="forklift">Forklift</SelectItem>
-                            <SelectItem value="first_aid">First Aid</SelectItem>
+                            <SelectItem value="all">All Disciplines</SelectItem>
+                            <SelectItem value="ndt_mt">MT — Magnetic Particle</SelectItem>
+                            <SelectItem value="ndt_ut">UT — Ultrasonic</SelectItem>
+                            <SelectItem value="ndt_pt">PT — Liquid Penetrant</SelectItem>
+                            <SelectItem value="ndt_rt">RT — Radiographic</SelectItem>
+                            <SelectItem value="ndt_et">ET — Eddy Current</SelectItem>
+                            <SelectItem value="ndt_vt">VT — Visual</SelectItem>
+                            <SelectItem value="ndt_ut_pa">UT-PA — Phased Array</SelectItem>
+                            <SelectItem value="ndt_xf">XF — X-Ray Fluorescence</SelectItem>
+                            <SelectItem value="ndt_cedo">CEDO — CNSC</SelectItem>
                             <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                     </Select>

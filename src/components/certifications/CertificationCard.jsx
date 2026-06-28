@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { FileText, Calendar, User, Hash, Trash2, ExternalLink, Share2, RefreshCw } from "lucide-react";
+import { FileText, Calendar, User, Hash, Trash2, ExternalLink, Share2, RefreshCw, ShieldCheck, Zap } from "lucide-react";
 import { format, parseISO, differenceInDays, isPast } from "date-fns";
 import DocumentShareDialog from "./DocumentShareDialog";
 import { useNavigate } from 'react-router-dom';
+
+const DISCIPLINE_LABELS = {
+  ndt_mt: 'MT', ndt_ut: 'UT', ndt_pt: 'PT', ndt_rt: 'RT',
+  ndt_et: 'ET', ndt_vt: 'VT', ndt_ut_pa: 'UT-PA', ndt_xf: 'XF', ndt_cedo: 'CEDO', other: 'Other'
+};
 
 function getStatusStyle(expiryDate) {
   const expiry = parseISO(expiryDate);
@@ -53,11 +58,33 @@ export default function CertificationCard({ certification, onDelete }) {
             </Button>
           </div>
 
-          {/* Sector / employer */}
-          {(certification.employer_name || certification.category) && (
-            <p className="text-sm text-gray-500 mb-3">
-              {certification.employer_name || certification.category}
-            </p>
+          {/* Badges row: discipline · governing body · SCS */}
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {certification.category && (
+              <span className="px-2 py-0.5 rounded-full text-xs font-bold"
+                style={{ backgroundColor: '#5a5f38', color: '#E8A020' }}>
+                {DISCIPLINE_LABELS[certification.category] || certification.category}
+              </span>
+            )}
+            {certification.governing_body && (
+              <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border"
+                style={{ borderColor: certification.governing_body === 'CNSC' ? '#7c3aed' : '#2563eb', color: certification.governing_body === 'CNSC' ? '#7c3aed' : '#2563eb', backgroundColor: certification.governing_body === 'CNSC' ? '#f5f3ff' : '#eff6ff' }}>
+                <ShieldCheck className="w-3 h-3" />
+                {certification.governing_body}
+              </span>
+            )}
+            {certification.scs_applicable && (
+              <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold"
+                style={{ backgroundColor: '#fef3c7', color: '#b45309' }}>
+                <Zap className="w-3 h-3" />
+                SCS
+              </span>
+            )}
+          </div>
+
+          {/* Employer */}
+          {certification.employer_name && (
+            <p className="text-sm text-gray-500 mb-3">{certification.employer_name}</p>
           )}
 
           {/* Countdown — large */}
