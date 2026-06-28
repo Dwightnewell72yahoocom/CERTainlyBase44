@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
-import { calculatePoints } from "@/lib/points";
+import { calculatePoints, cappedPoints } from "@/lib/points";
 import { toast } from "sonner";
 
 const NDT_METHODS = ['UT','RT','MT','PT','ET','VT','LT','AE','IR','NR'];
@@ -31,7 +31,7 @@ export default function AddLogEntrySheet({ open, onOpenChange, logType, technici
         hours: form.hours ? parseFloat(form.hours) : undefined,
         students_count: form.students_count ? parseInt(form.students_count) : undefined,
       };
-      entry.points = calculatePoints(logType, entry);
+      entry.points = cappedPoints(logType, calculatePoints(logType, entry));
       await base44.entities.ExperienceLog.create(entry);
       toast.success('Entry added');
       onSuccess();
@@ -118,6 +118,7 @@ export default function AddLogEntrySheet({ open, onOpenChange, logType, technici
 
           {logType === 'research' && (<>
             {f('Organisation / Institution', 'organisation')}
+            {f('Hours', 'hours', 'number', '0')}
             <div className="space-y-1.5">
               <Label>Description</Label>
               <Textarea value={form.description} onChange={e => set('description', e.target.value)} placeholder="Describe the research..." className="h-24" />
@@ -133,7 +134,7 @@ export default function AddLogEntrySheet({ open, onOpenChange, logType, technici
                 <SelectTrigger className="h-11"><SelectValue placeholder="Select role" /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="attended">Attended</SelectItem>
-                  <SelectItem value="presented">Presented</SelectItem>
+                  <SelectItem value="presenter">Presented</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -146,6 +147,7 @@ export default function AddLogEntrySheet({ open, onOpenChange, logType, technici
 
           {logType === 'mentoring' && (<>
             {f('Mentee Name(s)', 'mentee_names', 'text', 'Comma-separated names')}
+            {f('Number of Mentees', 'students_count', 'number', '1')}
             <div className="space-y-1.5">
               <Label>NDT Method</Label>
               <Select value={form.ndt_method} onValueChange={v => set('ndt_method', v)}>
