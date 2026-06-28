@@ -14,12 +14,10 @@ import AddCertificationForm from "../components/certifications/AddCertificationF
 import ReminderManager from "../components/certifications/ReminderManager";
 import QuickLogSheet from "../components/dashboard/QuickLogSheet";
 import BottomNav from "../components/layout/BottomNav";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 export default function Home() {
     const [showForm, setShowForm] = useState(false);
     const [showQuickLog, setShowQuickLog] = useState(false);
-    const [showFabMenu, setShowFabMenu] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('all');
     const queryClient = useQueryClient();
@@ -108,8 +106,17 @@ export default function Home() {
                     )}
                 </AnimatePresence>
 
-                {/* Search and Filters */}
-                <div className="mb-5 flex flex-col md:flex-row gap-3">
+                {/* Add Certification + Search and Filters */}
+                <div className="mb-5 space-y-3">
+                    <button
+                        onClick={() => setShowForm(true)}
+                        className="w-full py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-2 transition-transform active:scale-95"
+                        style={{ backgroundColor: '#E8A020', color: '#6b7040' }}
+                    >
+                        <Plus className="w-5 h-5" />
+                        Add Certification
+                    </button>
+                    <div className="flex flex-col md:flex-row gap-3">
                     <div className="relative flex-1">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                         <Input
@@ -138,6 +145,7 @@ export default function Home() {
                             <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                     </Select>
+                    </div>
                 </div>
 
                 {/* Certifications — single column stack */}
@@ -182,41 +190,6 @@ export default function Home() {
                     </Link>
                 </div>
             </div>
-
-            {/* FAB — Choice Menu */}
-            <Sheet open={showFabMenu} onOpenChange={setShowFabMenu}>
-                <button
-                    onClick={() => setShowFabMenu(true)}
-                    className="fixed bottom-20 right-4 z-40 w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-transform active:scale-90"
-                    style={{ backgroundColor: '#6b7040' }}
-                    aria-label="Add new entry"
-                >
-                    <Plus className="w-6 h-6" style={{ color: '#E8A020' }} />
-                </button>
-                <SheetContent side="bottom" className="h-auto max-h-[40vh] rounded-t-2xl" style={{ backgroundColor: '#f7f4ee' }}>
-                    <SheetHeader>
-                        <SheetTitle className="text-center font-black" style={{ color: '#6b7040' }}>What would you like to add?</SheetTitle>
-                    </SheetHeader>
-                    <div className="py-6 space-y-3">
-                        <button
-                            onClick={() => { setShowFabMenu(false); setShowForm(true); }}
-                            className="w-full py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-2 transition-transform active:scale-95"
-                            style={{ backgroundColor: '#E8A020', color: '#6b7040' }}
-                        >
-                            <Plus className="w-5 h-5" />
-                            Add Certification
-                        </button>
-                        <button
-                            onClick={() => { setShowFabMenu(false); setShowQuickLog(true); }}
-                            className="w-full py-4 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-transform active:scale-95 border-2"
-                            style={{ backgroundColor: '#f7f4ee', color: '#6b7040', borderColor: '#6b7040' }}
-                        >
-                            <Plus className="w-5 h-5" />
-                            Quick Log Entry (SCS Points)
-                        </button>
-                    </div>
-                </SheetContent>
-            </Sheet>
 
             {/* Quick Log Sheet */}
             <QuickLogSheet open={showQuickLog} onClose={() => setShowQuickLog(false)} />
