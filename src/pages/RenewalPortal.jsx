@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ExternalLink, RefreshCw, AlertTriangle, User, Hash, Building2, Calendar, ClipboardList, BarChart2, CheckSquare, FileText, Search } from "lucide-react";
+import { ExternalLink, RefreshCw, AlertTriangle, User, Hash, Building2, Calendar, ClipboardList, BarChart2, CheckSquare, FileText, Search, Download } from "lucide-react";
 import DownloadRenewalPackage from "@/components/certifications/DownloadRenewalPackage";
 import BottomNav from "@/components/layout/BottomNav";
 import { differenceInDays, isPast, parseISO, format } from "date-fns";
@@ -139,7 +139,18 @@ export default function RenewalPortal() {
         </div>
 
         {/* PDF auto-fill download */}
-        {selected && <DownloadRenewalPackage cert={selected} />}
+        {selected ? (
+          <DownloadRenewalPackage cert={selected} />
+        ) : (
+          <div className="rounded-2xl border border-dashed p-6 text-center" style={{ borderColor: '#d1ccc0', backgroundColor: '#faf9f7' }}>
+            <div className="w-12 h-12 rounded-full mx-auto mb-3 flex items-center justify-center" style={{ backgroundColor: 'rgba(107,112,64,0.1)' }}>
+              <FileText className="w-6 h-6" style={{ color: '#6b7040' }} />
+            </div>
+            <h3 className="font-black text-sm mb-1" style={{ color: '#6b7040' }}>Download Your Renewal Summary</h3>
+            <p className="text-xs text-gray-500 mb-3">Generate a pre-filled PDF with your certification data and experience logs</p>
+            <p className="text-xs font-semibold" style={{ color: '#BA7517' }}>↑ Select a certification above to unlock</p>
+          </div>
+        )}
 
         {/* Direct link */}
         <button
