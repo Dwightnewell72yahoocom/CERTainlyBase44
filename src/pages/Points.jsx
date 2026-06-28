@@ -4,13 +4,22 @@ import { base44 } from "@/api/base44Client";
 import { computeTotals, TAB_CONFIG, TOTAL_TARGET, CORE_TABS_TARGET } from "@/lib/points";
 import PointsSummary from "@/components/experience/PointsSummary";
 import BottomNav from "@/components/layout/BottomNav";
-import { FileText } from "lucide-react";
+import { FileText, ShieldAlert } from "lucide-react";
 
 export default function Points() {
   const { data: logs = [], isLoading } = useQuery({
     queryKey: ['experience_logs'],
     queryFn: () => base44.entities.ExperienceLog.list('-created_date'),
   });
+
+  const { data: certifications = [] } = useQuery({
+    queryKey: ['certifications'],
+    queryFn: () => base44.entities.Certification.list(),
+  });
+
+  // Determine if user has any NRCan (SCS-applicable) certifications
+  const hasNRCanCerts = certifications.some(c => c.governing_body === 'NRCan' || c.scs_applicable === true || !c.governing_body);
+  const onlyCEDO = certifications.length > 0 && !hasNRCanCerts;
 
   const totals = computeTotals(logs);
 
@@ -27,6 +36,23 @@ export default function Points() {
         {isLoading ? (
           <div className="text-center py-8">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-t-transparent" style={{ borderColor: '#5a5f38', borderTopColor: 'transparent' }} />
+          </div>
+        ) : onlyCEDO ? (
+          <div className="bg-white rounded-2xl border-l-4 border-amber-500 p-5 mt-2 space-y-2">
+            <div className="flex items-center gap-2">
+              <ShieldAlert className="w-5 h-5 text-amber-600 flex-shrink-0" />
+              <span className="font-black text-gray-900">CNSC Certification Detected</span>
+            </div>
+            <p className="text-sm text-gray-700">
+              Your certification is governed by the <strong>Canadian Nuclear Safety Commission (CNSC)</strong>, not NRCan.
+            </p>
+            <p className="text-sm text-gray-600">
+              CEDO (Certified Exposure Device Operator) certifications are renewed under CNSC requirements — the NRCan SCS point system does not apply.
+            </p>
+            <a href="https://nuclearsafety.gc.ca" target="_blank" rel="noopener noreferrer"
+              className="inline-block text-sm font-semibold underline mt-1" style={{ color: '#5a5f38' }}>
+              Visit CNSC Website →
+            </a>
           </div>
         ) : (
           <>
