@@ -14,8 +14,7 @@ function getStatus(expiryDate) {
   const expiry = parseISO(expiryDate);
   const days = differenceInDays(expiry, new Date());
   if (isPast(expiry) || days <= 0) return { type: 'overdue', days: Math.abs(days) };
-  if (days <= 90) return { type: 'urgent', days };
-  if (days <= 180) return { type: 'expiring', days };
+  if (days <= 60) return { type: 'urgent', days };
   return { type: 'active', days };
 }
 

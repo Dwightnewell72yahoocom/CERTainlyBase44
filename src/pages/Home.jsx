@@ -8,15 +8,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 
-import StatsOverview from "../components/certifications/StatsOverview";
 import UpcomingRenewals from "../components/certifications/UpcomingRenewals";
 import CertificationCard from "../components/certifications/CertificationCard";
 import AddCertificationForm from "../components/certifications/AddCertificationForm";
 import ReminderManager from "../components/certifications/ReminderManager";
+import QuickLogSheet from "../components/dashboard/QuickLogSheet";
 import BottomNav from "../components/layout/BottomNav";
 
 export default function Home() {
     const [showForm, setShowForm] = useState(false);
+    const [showQuickLog, setShowQuickLog] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('all');
     const queryClient = useQueryClient();
@@ -31,7 +32,6 @@ export default function Home() {
         queryFn: () => base44.entities.ExperienceLog.list(),
     });
 
-    // Total SCS points per certification (keyed by technician_name + category as proxy)
     const totalScsPoints = experienceLogs.reduce((sum, log) => sum + (log.points || 0), 0);
 
     const deleteMutation = useMutation({
@@ -80,9 +80,10 @@ export default function Home() {
             </div>
 
             <div className="max-w-4xl mx-auto px-4 py-4">
-                {/* Stats Overview */}
+
+                {/* Upcoming Renewals */}
                 <div className="mb-4">
-                    <StatsOverview certifications={certifications} />
+                    <UpcomingRenewals certifications={certifications} />
                 </div>
 
                 {/* Add Form */}
@@ -104,11 +105,6 @@ export default function Home() {
                         </motion.div>
                     )}
                 </AnimatePresence>
-
-                {/* Upcoming Renewals Alert */}
-                <div className="mb-4">
-                    <UpcomingRenewals certifications={certifications} />
-                </div>
 
                 {/* Search and Filters */}
                 <div className="mb-5 flex flex-col md:flex-row gap-3">
@@ -142,17 +138,17 @@ export default function Home() {
                     </Select>
                 </div>
 
-                {/* Certifications Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Certifications — single column stack */}
+                <div className="flex flex-col gap-4">
                     <AnimatePresence mode="popLayout">
                         {isLoading ? (
-                            <div className="col-span-full text-center py-16">
+                            <div className="text-center py-16">
                                 <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-t-transparent" style={{ borderColor: '#6b7040', borderTopColor: 'transparent' }} />
                             </div>
                         ) : filteredCertifications.length === 0 ? (
-                            <div className="col-span-full text-center py-16">
+                            <div className="text-center py-16">
                                 <p className="text-gray-400 text-base">No certifications found</p>
-                                <p className="text-gray-300 text-sm mt-1">Tap + to add your first certification</p>
+                                <p className="text-gray-300 text-sm mt-1">Tap + to log a quick entry</p>
                             </div>
                         ) : (
                             filteredCertifications.map((cert) => (
@@ -185,15 +181,18 @@ export default function Home() {
                 </div>
             </div>
 
-            {/* FAB — add certification */}
+            {/* FAB — Quick Log */}
             <button
-                onClick={() => setShowForm(f => !f)}
+                onClick={() => setShowQuickLog(true)}
                 className="fixed bottom-20 right-4 z-40 w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-transform active:scale-90"
                 style={{ backgroundColor: '#6b7040' }}
-                aria-label="Add certification"
+                aria-label="Quick log entry"
             >
                 <Plus className="w-6 h-6" style={{ color: '#E8A020' }} />
             </button>
+
+            {/* Quick Log Sheet */}
+            <QuickLogSheet open={showQuickLog} onClose={() => setShowQuickLog(false)} />
 
             <BottomNav />
         </div>

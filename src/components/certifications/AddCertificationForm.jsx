@@ -136,7 +136,7 @@ export default function AddCertificationForm({ onSuccess, onCancel }) {
                                 id="technician_name"
                                 value={formData.technician_name}
                                 onChange={(e) => setFormData({...formData, technician_name: e.target.value})}
-                                placeholder="John Smith"
+                                placeholder="Dwight Conrad Newell"
                                 required
                             />
                         </div>
@@ -146,7 +146,7 @@ export default function AddCertificationForm({ onSuccess, onCancel }) {
                                 id="certification_name"
                                 value={formData.certification_name}
                                 onChange={(e) => setFormData({...formData, certification_name: e.target.value})}
-                                placeholder="OSHA Safety Certification"
+                                placeholder="MT — Magnetic Testing"
                                 required
                             />
                         </div>
@@ -156,7 +156,7 @@ export default function AddCertificationForm({ onSuccess, onCancel }) {
                                 id="certification_number"
                                 value={formData.certification_number}
                                 onChange={(e) => setFormData({...formData, certification_number: e.target.value})}
-                                placeholder="CERT-12345"
+                                placeholder="13415"
                             />
                         </div>
                         <div className="space-y-2">
@@ -174,7 +174,7 @@ export default function AddCertificationForm({ onSuccess, onCancel }) {
                                 }}
                             >
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Select NDT discipline" />
+                                    <SelectValue placeholder="Select NDT discipline (MT, UT, PT, RT, ET, VT, UT-PA, XF, CEDO)" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {NDT_DISCIPLINES.map(d => (

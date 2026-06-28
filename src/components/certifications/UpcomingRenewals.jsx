@@ -1,66 +1,49 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AlertTriangle, Calendar } from "lucide-react";
-import { differenceInDays, parseISO, format } from "date-fns";
+import { AlertTriangle, Clock } from "lucide-react";
+import { differenceInDays, parseISO, isPast, format } from "date-fns";
 
 export default function UpcomingRenewals({ certifications }) {
-    const upcomingRenewals = certifications
-        .filter(cert => {
-            const daysUntilExpiry = differenceInDays(parseISO(cert.expiry_date), new Date());
-            return daysUntilExpiry > 0 && daysUntilExpiry <= 180;
-        })
-        .sort((a, b) => parseISO(a.expiry_date) - parseISO(b.expiry_date));
+  const items = certifications
+    .filter(c => c.expiry_date)
+    .map(c => ({
+      ...c,
+      days: differenceInDays(parseISO(c.expiry_date), new Date()),
+      expired: isPast(parseISO(c.expiry_date)),
+    }))
+    .filter(c => c.expired || c.days <= 60)
+    .sort((a, b) => a.days - b.days);
 
-    if (upcomingRenewals.length === 0) {
-        return (
-            <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
-                <CardHeader>
-                    <CardTitle className="text-lg flex items-center gap-2 text-green-800">
-                        <Calendar className="w-5 h-5" />
-                        Upcoming Renewals
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-sm text-green-700">No certifications require renewal in the next 6 months. Great job staying current!</p>
-                </CardContent>
-            </Card>
-        );
-    }
+  if (items.length === 0) return null;
 
-    return (
-        <Card className="bg-gradient-to-br from-amber-50 to-yellow-50 border-amber-300 shadow-lg">
-            <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2 text-amber-900">
-                    <AlertTriangle className="w-5 h-5" />
-                    Upcoming Renewals ({upcomingRenewals.length})
-                </CardTitle>
-            </CardHeader>
-            <CardContent>
-                <div className="space-y-3">
-                    {upcomingRenewals.map((cert) => {
-                        const daysUntilExpiry = differenceInDays(parseISO(cert.expiry_date), new Date());
-                        return (
-                            <div 
-                                key={cert.id} 
-                                className="bg-white p-4 rounded-lg border-l-4 border-l-amber-500 shadow-sm hover:shadow-md transition-shadow"
-                            >
-                                <div className="flex justify-between items-start">
-                                    <div>
-                                        <h4 className="font-semibold text-gray-900">{cert.certification_name}</h4>
-                                        <p className="text-sm text-gray-600">{cert.technician_name}</p>
-                                    </div>
-                                    <div className="text-right">
-                                        <div className="text-lg font-bold text-amber-700">{daysUntilExpiry} days</div>
-                                        <div className="text-xs text-gray-600">
-                                            {format(parseISO(cert.expiry_date), 'MMM dd, yyyy')}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })}
+  return (
+    <div className="rounded-2xl overflow-hidden" style={{ backgroundColor: '#fff7ed', border: '1px solid #fed7aa' }}>
+      <div className="px-4 pt-3 pb-2 flex items-center gap-2">
+        <AlertTriangle className="w-4 h-4" style={{ color: '#BA7517' }} />
+        <span className="font-black text-sm" style={{ color: '#7c2d12' }}>Upcoming Renewals</span>
+      </div>
+      <div className="px-4 pb-4 space-y-2">
+        {items.map(cert => {
+          const overdue = cert.expired || cert.days <= 0;
+          const color = overdue ? '#A32D2D' : '#BA7517';
+          const bg = overdue ? '#fef2f2' : '#fff7ed';
+          const borderColor = overdue ? '#fca5a5' : '#fed7aa';
+          return (
+            <div key={cert.id} className="flex items-center justify-between bg-white rounded-xl px-3 py-2.5 border"
+              style={{ borderColor }}>
+              <div>
+                <div className="font-black text-sm text-gray-900">{cert.certification_name}</div>
+                <div className="text-xs text-gray-400 mt-0.5">
+                  Expires {format(parseISO(cert.expiry_date), 'MMM d, yyyy')}
                 </div>
-            </CardContent>
-        </Card>
-    );
+              </div>
+              <span className="px-2.5 py-1 rounded-full text-xs font-black flex-shrink-0"
+                style={{ backgroundColor: bg, color }}>
+                {overdue ? 'OVERDUE' : `${cert.days}d left`}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
