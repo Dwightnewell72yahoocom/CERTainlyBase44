@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { FileText, User, Hash, Calendar, Trash2, ExternalLink, Share2, ShieldCheck, Zap, RefreshCw, AlertTriangle } from "lucide-react";
+import { FileText, User, Hash, Calendar, Trash2, ExternalLink, Share2, ShieldCheck, Zap, RefreshCw, AlertTriangle, Download, Loader2, CheckCircle } from "lucide-react";
 import { format, parseISO, differenceInDays, isPast, differenceInSeconds } from "date-fns";
 import DocumentShareDialog from "./DocumentShareDialog";
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from "@tanstack/react-query";
+import { base44 } from "@/api/base44Client";
+import { generateRenewalDataPack } from '@/lib/generateRenewalDataPack';
 
 const DISCIPLINE_LABELS = {
   ndt_mt: 'MT', ndt_ut: 'UT', ndt_pt: 'PT', ndt_rt: 'RT',
@@ -66,9 +69,35 @@ function ProgressRing({ pct, color, size = 64 }) {
 export default function CertificationCard({ certification, scsPoints = 0, onDelete }) {
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState(null);
+  const [downloadStatus, setDownloadStatus] = useState('idle'); // idle | loading | done | error
   const navigate = useNavigate();
 
   const { type, days } = getStatus(certification.expiry_date);
+
+  const { data: experienceLogs = [] } = useQuery({
+    queryKey: ['experienceLogs', certification.technician_name],
+    queryFn: () => base44.entities.ExperienceLog.filter({ technician_name: certification.technician_name }),
+    enabled: !!certification.technician_name,
+  });
+
+  const handleDownloadSummary = async () => {
+    setDownloadStatus('loading');
+    try {
+      const pdfBytes = await generateRenewalDataPack(certification, experienceLogs);
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `NRCan_Renewal_Summary_${(certification.technician_name || 'Applicant').replace(/\s+/g, '_')}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+      setDownloadStatus('done');
+      setTimeout(() => setDownloadStatus('idle'), 3000);
+    } catch (e) {
+      console.error(e);
+      setDownloadStatus('error');
+    }
+  };
   const theme = STATUS_THEME[type];
   const discipline = DISCIPLINE_LABELS[certification.category] || certification.category || '';
   const scsTarget = 100;
@@ -197,11 +226,22 @@ export default function CertificationCard({ certification, scsPoints = 0, onDele
               {theme.btnLabel}
             </button>
             <button
-              onClick={() => navigate('/scs-form')}
+              onClick={handleDownloadSummary}
+              disabled={downloadStatus === 'loading'}
               className="px-4 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-1 transition-transform active:scale-95 border-2"
-              style={{ borderColor: '#6b7040', color: '#6b7040', backgroundColor: 'white' }}>
-              <FileText className="w-4 h-4" />
-              SCS
+              style={{ 
+                borderColor: downloadStatus === 'done' ? '#3B6D11' : '#E8A020', 
+                color: downloadStatus === 'done' ? '#3B6D11' : '#E8A020', 
+                backgroundColor: downloadStatus === 'done' ? '#f0fdf4' : 'white' 
+              }}>
+              {downloadStatus === 'loading' ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : downloadStatus === 'done' ? (
+                <CheckCircle className="w-4 h-4" />
+              ) : (
+                <Download className="w-4 h-4" />
+              )}
+              {downloadStatus === 'done' ? 'Done' : 'Summary'}
             </button>
           </div>
 
