@@ -65,11 +65,14 @@ export default function Home() {
                     <div className="flex items-center gap-3">
                         <img
                             src="https://media.base44.com/images/public/692142275a8534a162072728/52e91b695_Untitleddesign.png"
-                            alt="Sound Solutions Pipeline DataCAT"
+                            alt="CERTainly"
                             className="h-12 w-auto object-contain"
                         />
-                        <div className="text-xs font-medium leading-tight" style={{ color: 'rgba(245,238,216,0.9)' }}>
-                            Your tools.<br/>Your time.<br/>Your terms.
+                        <div className="flex flex-col">
+                            <span className="text-lg font-bold" style={{ color: '#f5eed8' }}>CERTainly</span>
+                            <span className="text-xs font-medium leading-tight" style={{ color: 'rgba(245,238,216,0.9)' }}>
+                                Your tools. Your time. Your terms.
+                            </span>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
