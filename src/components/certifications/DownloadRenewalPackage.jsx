@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Download, Mail, CheckCircle, AlertCircle, Loader2, FileText, Check, Copy, ExternalLink } from 'lucide-react';
-import { generateRenewalPackage } from '@/lib/nrcanForms/index';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
+import { generateRenewalDataPack } from '@/lib/generateRenewalDataPack';
 
 const NRCAN_EMAIL = 'ndtrecertification-endrecertification@nrcan-rncan.gc.ca';
 const NRCAN_FORMS_URL = 'https://natural-resources.canada.ca/science-and-data/science-and-research/laboratories-and-test-facilities/non-destructive-testing/certification/forms-ndt/5800';
@@ -48,7 +48,7 @@ export default function DownloadRenewalPackage({ cert }) {
     setStatus('loading');
     setErrorMsg('');
     try {
-      const pdfBytes = await generateRenewalPackage(cert, experienceLogs);
+      const pdfBytes = await generateRenewalDataPack(cert, experienceLogs);
       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -89,7 +89,7 @@ export default function DownloadRenewalPackage({ cert }) {
       {/* Header */}
       <div className="px-4 py-3" style={{ backgroundColor: '#6b7040' }}>
         <p className="font-black text-sm" style={{ color: '#E8A020' }}>NRCan Renewal Package</p>
-        <p className="text-xs mt-0.5" style={{ color: 'rgba(245,237,214,0.7)' }}>Pre-filled Forms 8.2.1-075, 8.2.1-073 & 8.2.1-002 — generated from your app data</p>
+        <p className="text-xs mt-0.5" style={{ color: 'rgba(245,237,214,0.7)' }}>Summary document + experience log export for NRCan renewal</p>
       </div>
 
       <div className="bg-white p-4 space-y-3">
@@ -102,7 +102,7 @@ export default function DownloadRenewalPackage({ cert }) {
           </div>
           <div className="p-3 space-y-2">
             <p className="text-xs" style={{ color: '#666' }}>
-              All 3 official NRCan forms in one PDF — fully pre-filled with your data. Print, sign, and send.
+              2-page summary with your info, SCS points breakdown, and complete experience log — perfect supporting document for your NRCan application.
             </p>
 
             {status === 'idle' || status === 'done' ? (
@@ -112,7 +112,7 @@ export default function DownloadRenewalPackage({ cert }) {
                 style={{ backgroundColor: '#E8A020', color: '#fff' }}
               >
                 <Download className="w-4 h-4" />
-                {status === 'done' ? 'Download Again' : 'Download NRCan Package (.pdf)'}
+                {status === 'done' ? 'Download Again' : 'Download Renewal Summary (.pdf)'}
               </button>
             ) : status === 'loading' ? (
               <div className="w-full h-11 rounded-xl flex items-center justify-center gap-2 bg-gray-50">
@@ -134,7 +134,7 @@ export default function DownloadRenewalPackage({ cert }) {
             {status === 'done' && (
               <div className="flex items-start gap-2 rounded-xl p-3" style={{ backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0' }}>
                 <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: '#16a34a' }} />
-                <p className="text-xs font-semibold" style={{ color: '#166534' }}>Forms downloaded — review, sign (you + supervisor), then email to NRCan in Step 2.</p>
+                <p className="text-xs font-semibold" style={{ color: '#166534' }}>Summary downloaded — attach it with your official NRCan forms when submitting.</p>
               </div>
             )}
           </div>
@@ -174,18 +174,19 @@ export default function DownloadRenewalPackage({ cert }) {
 
         {/* What's included */}
         <div className="rounded-xl border px-3 py-2 space-y-1" style={{ borderColor: '#d1ccc0', backgroundColor: '#f7f4ee' }}>
-          <p className="text-xs font-black" style={{ color: '#6b7040' }}>What's in the package:</p>
+          <p className="text-xs font-black" style={{ color: '#6b7040' }}>What's included:</p>
           {[
-            { code: '8.2.1-075', name: 'Renewal Application Form' },
-            { code: '8.2.1-073', name: 'SCS Points Application Form' },
-            { code: '8.2.1-002', name: 'Code of Conduct' },
-          ].map(f => (
-            <div key={f.code} className="flex items-center gap-2 text-xs">
-              <FileText className="w-3 h-3 flex-shrink-0" style={{ color: '#6b7040' }} />
-              <span className="font-bold" style={{ color: '#6b7040' }}>{f.code}</span>
-              <span style={{ color: '#555' }}>{f.name}</span>
+            { icon: '✓', text: 'Page 1: Applicant info + SCS points breakdown + submission checklist' },
+            { icon: '✓', text: 'Page 2: Detailed experience log (all entries with dates, hours, points)' },
+          ].map((item, i) => (
+            <div key={i} className="flex items-start gap-2 text-xs">
+              <FileText className="w-3 h-3 flex-shrink-0 mt-0.5" style={{ color: '#6b7040' }} />
+              <span style={{ color: '#555' }}>{item.text}</span>
             </div>
           ))}
+          <div className="mt-2 pt-2 border-t" style={{ borderColor: '#d1ccc0' }}>
+            <p className="text-xs font-semibold" style={{ color: '#A32D2D' }}>Note: Download official NRCan forms separately — this is a supporting summary document only.</p>
+          </div>
         </div>
 
         {/* Step 2: Email NRCan */}
@@ -196,15 +197,25 @@ export default function DownloadRenewalPackage({ cert }) {
           </div>
           <div className="p-3 space-y-2">
             <p className="text-xs" style={{ color: '#666' }}>
-              Print the package, sign it (you + employer/supervisor), then email all 3 forms to NRCan NDTCB.
+              Download official NRCan forms from their website, fill them out, attach this summary, then email to NRCan NDTCB.
             </p>
-            <button
-              onClick={handleEmail}
-              className="w-full h-11 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-transform active:scale-95"
+            <a
+              href={NRCAN_FORMS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full h-11 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-transform active:scale-95 mb-2"
               style={{ backgroundColor: '#6b7040', color: '#E8A020' }}
             >
+              <ExternalLink className="w-4 h-4" />
+              Download Official NRCan Forms
+            </a>
+            <button
+              onClick={handleEmail}
+              className="w-full h-11 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-transform active:scale-95"
+              style={{ backgroundColor: '#f0ede5', color: '#6b7040', border: '2px solid #6b7040' }}
+            >
               <Mail className="w-4 h-4" />
-              Open Pre-filled Email to NRCan
+              Email NRCan (with attachments)
             </button>
           </div>
         </div>
