@@ -1,0 +1,24 @@
+{
+  "name": "CERTainly",
+  "short_name": "CERTainly",
+  "description": "NRCan NDT Certification Management",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f4ee",
+  "theme_color": "#6b7040",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://media.base44.com/images/public/692142275a8534a162072728/52e91b695_Untitleddesign.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://media.base44.com/images/public/692142275a8534a162072728/52e91b695_Untitleddesign.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
