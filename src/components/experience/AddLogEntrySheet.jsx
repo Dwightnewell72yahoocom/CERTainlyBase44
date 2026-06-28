@@ -168,8 +168,17 @@ export default function AddLogEntrySheet({ open, onOpenChange, logType, technici
             <Textarea value={form.notes} onChange={e => set('notes', e.target.value)} placeholder="Additional notes..." className="h-16" />
           </div>
 
-          <Button onClick={handleSave} disabled={saving} className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-base">
-            {saving ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Saving...</> : 'Add Entry'}
+          {/* Live points preview */}
+          <div className="rounded-xl p-3 text-center border" style={{ backgroundColor: 'rgba(107,112,64,0.06)', borderColor: 'rgba(232,160,32,0.3)' }}>
+            <div className="text-xs text-gray-500 mb-0.5">Points this entry will earn</div>
+            <div className="text-2xl font-black" style={{ color: '#E8A020' }}>
+              +{cappedPoints(logType, calculatePoints(logType, { ...form, hours: parseFloat(form.hours) || 0, students_count: parseInt(form.students_count) || 1 }))} pts
+            </div>
+          </div>
+
+          <Button onClick={handleSave} disabled={saving} className="w-full h-12 text-base font-black"
+            style={{ backgroundColor: '#6b7040', color: '#E8A020' }}>
+            {saving ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Saving...</> : 'Save Entry'}
           </Button>
         </div>
       </DialogContent>

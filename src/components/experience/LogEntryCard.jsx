@@ -1,21 +1,16 @@
 import React from 'react';
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Star, Trash2, Clock, Calendar } from "lucide-react";
+import { Trash2, Clock, Calendar } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { TAB_CONFIG } from "@/lib/points";
 
+const BORDER_COLORS = {
+  blue: '#3B6D11', green: '#2563eb', purple: '#7c3aed',
+  orange: '#EA6A00', cyan: '#0891b2', yellow: '#b45309', pink: '#db2777',
+};
+
 export default function LogEntryCard({ entry, onDelete }) {
   const cfg = TAB_CONFIG[entry.log_type] || {};
-  const colorMap = {
-    blue: 'bg-blue-50 border-blue-200 text-blue-700',
-    green: 'bg-green-50 border-green-200 text-green-700',
-    purple: 'bg-purple-50 border-purple-200 text-purple-700',
-    orange: 'bg-orange-50 border-orange-200 text-orange-700',
-    cyan: 'bg-cyan-50 border-cyan-200 text-cyan-700',
-    yellow: 'bg-yellow-50 border-yellow-200 text-yellow-700',
-    pink: 'bg-pink-50 border-pink-200 text-pink-700',
-  };
+  const borderColor = BORDER_COLORS[cfg.color] || '#6b7040';
 
   const subtitle = [
     entry.employer, entry.provider, entry.organisation,
@@ -23,31 +18,36 @@ export default function LogEntryCard({ entry, onDelete }) {
   ].filter(Boolean).join(' · ');
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm flex items-start gap-3">
-      <div className={`rounded-lg p-2 ${colorMap[cfg.color] || 'bg-gray-50'} border flex-shrink-0`}>
-        <Star className="w-4 h-4" />
-      </div>
+    <div className="bg-white rounded-xl border shadow-sm flex items-start gap-3 p-4 overflow-hidden"
+      style={{ borderLeftWidth: 4, borderLeftColor: borderColor, borderColor: '#e5e7eb' }}>
       <div className="flex-1 min-w-0">
-        <div className="font-medium text-gray-900 truncate">{entry.title || cfg.label}</div>
-        {subtitle && <div className="text-xs text-gray-500 mt-0.5 truncate">{subtitle}</div>}
-        <div className="flex flex-wrap items-center gap-2 mt-2">
+        <div className="font-bold text-gray-900 leading-snug">{entry.title || cfg.label}</div>
+        {subtitle && <div className="text-xs text-gray-400 mt-0.5 truncate">{subtitle}</div>}
+        <div className="flex flex-wrap items-center gap-3 mt-2">
           {entry.hours ? (
-            <span className="flex items-center gap-1 text-xs text-gray-500">
+            <span className="flex items-center gap-1 text-xs text-gray-400">
               <Clock className="w-3 h-3" />{entry.hours}h
             </span>
           ) : null}
           {entry.start_date && (
-            <span className="flex items-center gap-1 text-xs text-gray-500">
+            <span className="flex items-center gap-1 text-xs text-gray-400">
               <Calendar className="w-3 h-3" />{format(parseISO(entry.start_date), 'MMM yyyy')}
             </span>
+          )}
+          {entry.end_date && entry.end_date !== entry.start_date && (
+            <span className="text-xs text-gray-400">→ {format(parseISO(entry.end_date), 'MMM yyyy')}</span>
           )}
         </div>
       </div>
       <div className="flex flex-col items-end gap-2 flex-shrink-0">
-        <Badge className="bg-blue-600 text-white text-sm px-2 py-0.5">+{entry.points} pts</Badge>
-        <Button variant="ghost" size="icon" className="h-7 w-7 text-gray-400 hover:text-red-500" onClick={() => onDelete(entry.id)}>
+        <span className="px-2.5 py-1 rounded-full text-sm font-black"
+          style={{ backgroundColor: '#E8A02018', color: '#E8A020' }}>
+          +{entry.points ?? 0} pts
+        </span>
+        <button onClick={() => onDelete(entry.id)}
+          className="p-1.5 rounded-lg text-gray-300 hover:text-red-500 transition-colors">
           <Trash2 className="w-3.5 h-3.5" />
-        </Button>
+        </button>
       </div>
     </div>
   );
