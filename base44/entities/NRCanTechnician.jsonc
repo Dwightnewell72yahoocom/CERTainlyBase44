@@ -1,0 +1,44 @@
+{
+  "name": "NRCanTechnician",
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string"
+    },
+    "reg_number": {
+      "type": "string"
+    },
+    "employer": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "province": {
+      "type": "string"
+    },
+    "methods": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string"
+          },
+          "level": {
+            "type": "string"
+          },
+          "sector": {
+            "type": "string"
+          },
+          "expiry_date": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "full_name"
+  ]
+}
