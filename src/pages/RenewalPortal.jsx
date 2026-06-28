@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ExternalLink, RefreshCw, AlertTriangle, User, Hash, Building2, Calendar, ClipboardList, BarChart2, CheckSquare, FileText, Search } from "lucide-react";
+import DownloadRenewalPackage from "@/components/certifications/DownloadRenewalPackage";
 import BottomNav from "@/components/layout/BottomNav";
 import { differenceInDays, isPast, parseISO, format } from "date-fns";
 
@@ -136,6 +137,9 @@ export default function RenewalPortal() {
             Open NRCan Renewal Portal
           </button>
         </div>
+
+        {/* PDF auto-fill download */}
+        {selected && <DownloadRenewalPackage cert={selected} />}
 
         {/* Direct link */}
         <button
