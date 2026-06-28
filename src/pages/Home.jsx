@@ -170,8 +170,16 @@ export default function Home() {
                     </AnimatePresence>
                 </div>
 
-                {/* Employer Dashboard button */}
-                <div className="mt-6">
+                {/* Add Certification button */}
+                <div className="mt-6 space-y-3">
+                    <button
+                        onClick={() => setShowForm(true)}
+                        className="w-full py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-2 transition-transform active:scale-95"
+                        style={{ backgroundColor: '#E8A020', color: '#6b7040' }}>
+                        <Plus className="w-5 h-5" />
+                        Add Certification
+                    </button>
+                    {/* Employer Dashboard button */}
                     <Link to="/employer-dashboard"
                         className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl font-bold text-sm transition-transform active:scale-95"
                         style={{ backgroundColor: '#6b7040', color: '#f5eed8' }}>
