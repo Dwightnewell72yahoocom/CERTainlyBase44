@@ -34,6 +34,17 @@ function drawLine(page, x1, y1, x2, y2, { color = C.black, thickness = 0.5 } = {
   page.drawLine({ start: { x: x1, y: y1 }, end: { x: x2, y: y2 }, thickness, color });
 }
 
+// Draw checkbox
+function drawCheckbox(page, x, y, checked, size = 9) {
+  const boxSize = size + 2;
+  drawBox(page, x, y - boxSize, boxSize, boxSize, { border: C.black, borderWidth: 0.75 });
+  if (checked) {
+    const xMark = size * 0.7;
+    drawLine(page, x + 2, y - 2, x + xMark, y - boxSize + 2, { color: C.black, thickness: 0.5 });
+    drawLine(page, x + xMark, y - 2, x + 2, y - boxSize + 2, { color: C.black, thickness: 0.5 });
+  }
+}
+
 // Determine level from cert name
 function getLevel(certName = '') {
   const m = certName.match(/level\s*(\d)/i);
@@ -263,7 +274,8 @@ export async function generateForm073(cert, experienceLogs = []) {
   const pass = grandTotal >= 100 && totalPartA >= table.minPartA;
 
   drawBox(p1, M, y - 2, pageW - M * 2, 16, { fill: pass ? rgb(0.13, 0.40, 0.13) : C.red, borderWidth: 0 });
-  drawText(p1, `TOTAL: ${grandTotal}/100 points  |  Part A: ${totalPartA}/${table.minPartA} minimum  |  Status: ${pass ? 'MEETS REQUIREMENTS' : 'DOES NOT MEET REQUIREMENTS'}`,
+  const statusText = pass ? 'MEETS REQUIREMENTS' : 'DOES NOT MEET REQUIREMENTS';
+  drawText(p1, `TOTAL: ${grandTotal}/100 points  |  Part A: ${totalPartA}/${table.minPartA} minimum  |  Status: ${statusText}`,
     M + 4, y + 2, { font: boldFont, size: 8.5, color: C.white });
   y -= 22;
 

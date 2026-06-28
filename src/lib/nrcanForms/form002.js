@@ -28,6 +28,17 @@ function drawLine(page, x1, y1, x2, y2, { color = C.black, thickness = 0.5 } = {
   page.drawLine({ start: { x: x1, y: y1 }, end: { x: x2, y: y2 }, thickness, color });
 }
 
+// Draw checkbox
+function drawCheckbox(page, x, y, checked, size = 9) {
+  const boxSize = size + 2;
+  drawBox(page, x, y - boxSize, boxSize, boxSize, { border: C.black, borderWidth: 0.75 });
+  if (checked) {
+    const xMark = size * 0.7;
+    drawLine(page, x + 2, y - 2, x + xMark, y - boxSize + 2, { color: C.black, thickness: 0.5 });
+    drawLine(page, x + xMark, y - 2, x + 2, y - boxSize + 2, { color: C.black, thickness: 0.5 });
+  }
+}
+
 // Wrap and draw multi-line text, returns new y position
 function drawWrapped(page, text, x, y, maxW, { font, size = 8.5, color = C.black, lineH = 12 } = {}) {
   const words = text.split(' ');
