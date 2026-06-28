@@ -89,7 +89,7 @@ export async function generateForm075(cert, experienceLogs = [], user = {}) {
 
   // Row: Preferred Language + Registration
   drawText(p1, 'Preferred Language:', M, y, { font: boldFont, size: 8 });
-  drawText(p1, '☒ English  ☐ Français', M + 90, y, { font, size: 8 });
+  drawText(p1, '[X] English  [ ] Francais', M + 90, y, { font, size: 8 });
   drawText(p1, 'NRCan NDTCB Registration #:', width - M - 180, y, { font: boldFont, size: 8 });
   drawBox(p1, width - M - 90, y - 10, 90, 14, { borderWidth: 0.5, border: C.lightGray });
   drawText(p1, cert.nrcan_id || '', width - M - 86, y - 6, { font, size: 9 });
@@ -150,15 +150,15 @@ export async function generateForm075(cert, experienceLogs = [], user = {}) {
     const cx = M + col * colW;
     const cy = y - row * 16;
     const checked = certUpper.includes(m.replace('-', '')) || certUpper.includes(m);
-    drawText(p1, checked ? '☒' : '☐', cx, cy, { font, size: 10 });
-    drawText(p1, m, cx + 14, cy, { font: checked ? boldFont : font, size: 9 });
+    drawText(p1, checked ? '[X]' : '[ ]', cx, cy, { font: checked ? boldFont : font, size: 8 });
+    drawText(p1, m, cx + 20, cy, { font: checked ? boldFont : font, size: 9 });
   });
   y -= 38;
 
   drawText(p1, 'To be paid by:', M, y, { font: boldFont, size: 8 });
   const paidByApplicant = true;
-  drawText(p1, paidByApplicant ? '☒ Applicant' : '☐ Applicant', M + 74, y, { font, size: 8 });
-  drawText(p1, '☐ Company or third party', M + 140, y, { font, size: 8 });
+  drawText(p1, paidByApplicant ? '[X] Applicant' : '[ ] Applicant', M + 74, y, { font, size: 8 });
+  drawText(p1, '[ ] Company or third party', M + 155, y, { font, size: 8 });
   y -= 22;
 
   // ── SECTION 4: Record of Experience ─────────────────────────────────────
@@ -208,9 +208,9 @@ export async function generateForm075(cert, experienceLogs = [], user = {}) {
   const maxRows = Math.max(industries.length, applications.length, materials.length);
   for (let r = 0; r < Math.min(maxRows, 6); r++) {
     if (r % 2 === 0) drawBox(p1, M, y - 2, width - M * 2, 11, { fill: rgb(0.97, 0.97, 0.97), borderWidth: 0 });
-    drawText(p1, `☐ ${industries[r] || ''}`, M + 2, y, { font, size: 7 });
-    drawText(p1, `☐ ${applications[r] || ''}`, M + colWGrid + 2, y, { font, size: 7 });
-    drawText(p1, `☐ ${materials[r] || ''}`, M + colWGrid * 2 + 2, y, { font, size: 7 });
+    drawText(p1, `[ ] ${industries[r] || ''}`, M + 2, y, { font, size: 7 });
+    drawText(p1, `[ ] ${applications[r] || ''}`, M + colWGrid + 2, y, { font, size: 7 });
+    drawText(p1, `[ ] ${materials[r] || ''}`, M + colWGrid * 2 + 2, y, { font, size: 7 });
     y -= 11;
   }
   y -= 6;
@@ -293,12 +293,12 @@ export async function generateForm075(cert, experienceLogs = [], user = {}) {
   y -= 18;
 
   const checklist = [
-    '☒ 8.2.1-075 Renewal Application Form (this document) — fully completed and signed',
-    '☒ 8.2.1-073 Structured Credit System Application Form for Renewal — one per method',
-    '☒ 8.2.1-002 NRCan NDTCB Code of Conduct — signed',
-    '☐ Vision Test Report Form (8.2.1-003) — required if applicable',
-    '☐ 2 Passport-style photos — required approximately every 10 years',
-    '☒ Renewal fee payment — payable to Receiver General for Canada',
+    '[X] 8.2.1-075 Renewal Application Form (this document) — fully completed and signed',
+    '[X] 8.2.1-073 Structured Credit System Application Form for Renewal — one per method',
+    '[X] 8.2.1-002 NRCan NDTCB Code of Conduct — signed',
+    '[ ] Vision Test Report Form (8.2.1-003) — required if applicable',
+    '[ ] 2 Passport-style photos — required approximately every 10 years',
+    '[X] Renewal fee payment — payable to Receiver General for Canada',
   ];
 
   checklist.forEach((item) => {

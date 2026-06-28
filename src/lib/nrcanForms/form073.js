@@ -263,7 +263,7 @@ export async function generateForm073(cert, experienceLogs = []) {
   const pass = grandTotal >= 100 && totalPartA >= table.minPartA;
 
   drawBox(p1, M, y - 2, pageW - M * 2, 16, { fill: pass ? rgb(0.13, 0.40, 0.13) : C.red, borderWidth: 0 });
-  drawText(p1, `TOTAL: ${grandTotal}/100 points  |  Part A: ${totalPartA}/${table.minPartA} minimum  |  Status: ${pass ? '✓ MEETS REQUIREMENTS' : '✗ DOES NOT MEET REQUIREMENTS'}`,
+  drawText(p1, `TOTAL: ${grandTotal}/100 points  |  Part A: ${totalPartA}/${table.minPartA} minimum  |  Status: ${pass ? 'MEETS REQUIREMENTS' : 'DOES NOT MEET REQUIREMENTS'}`,
     M + 4, y + 2, { font: boldFont, size: 8.5, color: C.white });
   y -= 22;
 
