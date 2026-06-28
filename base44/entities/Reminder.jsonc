@@ -14,6 +14,17 @@
     "days_before": {
       "type": "number"
     },
+    "is_overdue": {
+      "type": "boolean"
+    },
+    "recipient_type": {
+      "type": "string",
+      "enum": [
+        "technician",
+        "employer",
+        "supervisor"
+      ]
+    },
     "sent_at": {
       "type": "string"
     },
