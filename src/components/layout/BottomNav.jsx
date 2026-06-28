@@ -7,7 +7,7 @@ const NAV_ITEMS = [
   { path: '/experience-log', label: 'Log', icon: PenLine },
   { path: '/points', label: 'Points', icon: BarChart2 },
   { path: '/renewal-portal', label: 'Renew', icon: ScrollText },
-  { path: '/employer-dashboard', label: 'Verify', icon: Search },
+  { path: '/nrcan-directory', label: 'Verify', icon: Search },
 ];
 
 export default function BottomNav() {
