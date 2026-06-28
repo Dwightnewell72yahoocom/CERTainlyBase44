@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Download, Mail, CheckCircle, AlertCircle, Loader2, FileText, Check, Copy, ExternalLink } from 'lucide-react';
+import { Download, Mail, CheckCircle, AlertCircle, Loader2, FileText, Check, Copy, ExternalLink, QrCode } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { generateRenewalDataPack } from '@/lib/generateRenewalDataPack';
@@ -189,26 +189,44 @@ export default function DownloadRenewalPackage({ cert }) {
           </div>
         </div>
 
-        {/* Step 2: Email NRCan */}
+        {/* Step 2: QR Code for Mobile Access */}
         <div className="rounded-xl overflow-hidden border" style={{ borderColor: '#d1ccc0' }}>
           <div className="px-3 py-2 flex items-center gap-2" style={{ backgroundColor: '#f7f4ee' }}>
             <span className="w-5 h-5 rounded-full text-xs font-black flex items-center justify-center text-white flex-shrink-0" style={{ backgroundColor: '#6b7040' }}>2</span>
-            <p className="text-xs font-black" style={{ color: '#6b7040' }}>Sign & email to NRCan</p>
+            <p className="text-xs font-black" style={{ color: '#6b7040' }}>Scan for instant mobile access</p>
+          </div>
+          <div className="p-4 text-center space-y-3">
+            <div className="bg-white rounded-2xl p-4 inline-block shadow-lg" style={{ border: '2px solid #6b7040' }}>
+              <img 
+                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://app-692142275a8534a162072728.base44.app/nrcan-forms"
+                alt="QR code linking to NRCan forms page"
+                className="w-32 h-32"
+              />
+            </div>
+            <p className="text-xs" style={{ color: '#666' }}>
+              Scan with iPhone camera → opens all 3 NRCan forms instantly
+            </p>
+            <a
+              href="/nrcan-forms"
+              className="inline-block w-full h-11 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-transform active:scale-95"
+              style={{ backgroundColor: '#E8A020', color: '#fff' }}
+            >
+              <ExternalLink className="w-4 h-4" />
+              Open Forms Page Directly
+            </a>
+          </div>
+        </div>
+
+        {/* Step 3: Email NRCan */}
+        <div className="rounded-xl overflow-hidden border" style={{ borderColor: '#d1ccc0' }}>
+          <div className="px-3 py-2 flex items-center gap-2" style={{ backgroundColor: '#f7f4ee' }}>
+            <span className="w-5 h-5 rounded-full text-xs font-black flex items-center justify-center text-white flex-shrink-0" style={{ backgroundColor: '#6b7040' }}>3</span>
+            <p className="text-xs font-black" style={{ color: '#6b7040' }}>Email to NRCan</p>
           </div>
           <div className="p-3 space-y-2">
             <p className="text-xs" style={{ color: '#666' }}>
-              Download official NRCan forms from their website, fill them out, attach this summary, then email to NRCan NDTCB.
+              Fill out the 3 NRCan forms, attach this summary, then email to NRCan NDTCB.
             </p>
-            <a
-              href={NRCAN_FORMS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full h-11 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-transform active:scale-95 mb-2"
-              style={{ backgroundColor: '#6b7040', color: '#E8A020' }}
-            >
-              <ExternalLink className="w-4 h-4" />
-              Download Official NRCan Forms
-            </a>
             <button
               onClick={handleEmail}
               className="w-full h-11 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-transform active:scale-95"

@@ -10,6 +10,7 @@ import SCSFormPreview from './pages/SCSFormPreview';
 import RenewalApplication from './pages/RenewalApplication';
 import NRCanDirectory from './pages/NRCanDirectory';
 import RenewalChecklist from './pages/RenewalChecklist';
+import NRCanForms from './pages/NRCanForms';
 
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
@@ -80,6 +81,7 @@ const AuthenticatedApp = () => {
       <Route path="/renewal-checklist" element={<LayoutWrapper currentPageName="RenewalChecklist"><RenewalChecklist /></LayoutWrapper>} />
       <Route path="/scs-form" element={<LayoutWrapper currentPageName="SCSFormPreview"><SCSFormPreview /></LayoutWrapper>} />
       <Route path="/renewal-application" element={<LayoutWrapper currentPageName="RenewalApplication"><RenewalApplication /></LayoutWrapper>} />
+      <Route path="/nrcan-forms" element={<LayoutWrapper currentPageName="NRCanForms"><NRCanForms /></LayoutWrapper>} />
 
       <Route path="/splash" element={<Splash />} />
       <Route path="/dashboard" element={<LayoutWrapper currentPageName={mainPageKey}><MainPage /></LayoutWrapper>} />
