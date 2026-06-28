@@ -18,23 +18,27 @@
     "category": {
       "type": "string",
       "enum": [
-        "electrical",
-        "mechanical",
-        "safety",
-        "hvac",
-        "welding",
-        "quality",
-        "forklift",
-        "first_aid",
-        "ndt_ut",
-        "ndt_rt",
         "ndt_mt",
+        "ndt_ut",
         "ndt_pt",
+        "ndt_rt",
         "ndt_et",
         "ndt_vt",
-        "ndt_lt",
+        "ndt_ut_pa",
+        "ndt_xf",
+        "ndt_cedo",
         "other"
       ]
+    },
+    "governing_body": {
+      "type": "string",
+      "enum": [
+        "NRCan",
+        "CNSC"
+      ]
+    },
+    "scs_applicable": {
+      "type": "boolean"
     },
     "issue_date": {
       "type": "string",

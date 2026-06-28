@@ -1,4 +1,17 @@
 import React, { useState } from 'react';
+
+const NDT_DISCIPLINES = [
+    { value: 'ndt_mt',    label: 'MT — Magnetic Testing',                     governing_body: 'NRCan', scs_applicable: true },
+    { value: 'ndt_ut',    label: 'UT — Ultrasonic Testing',                   governing_body: 'NRCan', scs_applicable: true },
+    { value: 'ndt_pt',    label: 'PT — Penetrant Testing',                    governing_body: 'NRCan', scs_applicable: true },
+    { value: 'ndt_rt',    label: 'RT — Radiographic Testing',                 governing_body: 'NRCan', scs_applicable: true },
+    { value: 'ndt_et',    label: 'ET — Eddy Current Testing',                 governing_body: 'NRCan', scs_applicable: true },
+    { value: 'ndt_vt',    label: 'VT — Visual Testing',                       governing_body: 'NRCan', scs_applicable: true },
+    { value: 'ndt_ut_pa', label: 'UT-PA — Ultrasonic Phased Array',           governing_body: 'NRCan', scs_applicable: true },
+    { value: 'ndt_xf',    label: 'XF — X-Ray Fluorescence',                  governing_body: 'NRCan', scs_applicable: true },
+    { value: 'ndt_cedo',  label: 'CEDO — Certified Exposure Device Operator', governing_body: 'CNSC',  scs_applicable: false },
+    { value: 'other',     label: 'Other',                                      governing_body: 'NRCan', scs_applicable: true },
+];
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,6 +29,8 @@ export default function AddCertificationForm({ onSuccess, onCancel }) {
         certification_name: '',
         certification_number: '',
         category: '',
+        governing_body: '',
+        scs_applicable: true,
         issue_date: '',
         expiry_date: '',
         notes: '',
@@ -145,26 +160,36 @@ export default function AddCertificationForm({ onSuccess, onCancel }) {
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="category">Category</Label>
+                            <Label htmlFor="category">NDT Discipline</Label>
                             <Select
                                 value={formData.category}
-                                onValueChange={(value) => setFormData({...formData, category: value})}
+                                onValueChange={(value) => {
+                                    const disc = NDT_DISCIPLINES.find(d => d.value === value);
+                                    setFormData({
+                                        ...formData,
+                                        category: value,
+                                        governing_body: disc?.governing_body || 'NRCan',
+                                        scs_applicable: disc?.scs_applicable ?? true,
+                                    });
+                                }}
                             >
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Select category" />
+                                    <SelectValue placeholder="Select NDT discipline" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="electrical">Electrical</SelectItem>
-                                    <SelectItem value="mechanical">Mechanical</SelectItem>
-                                    <SelectItem value="safety">Safety</SelectItem>
-                                    <SelectItem value="hvac">HVAC</SelectItem>
-                                    <SelectItem value="welding">Welding</SelectItem>
-                                    <SelectItem value="quality">Quality</SelectItem>
-                                    <SelectItem value="forklift">Forklift</SelectItem>
-                                    <SelectItem value="first_aid">First Aid</SelectItem>
-                                    <SelectItem value="other">Other</SelectItem>
+                                    {NDT_DISCIPLINES.map(d => (
+                                        <SelectItem key={d.value} value={d.value}>{d.label}</SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
+                            {formData.category === 'ndt_cedo' && (
+                                <p className="text-xs text-amber-700 bg-amber-50 rounded-lg px-3 py-2 mt-1">
+                                    CEDO is governed by the CNSC — SCS points do not apply.
+                                </p>
+                            )}
+                            {formData.governing_body && formData.category !== 'ndt_cedo' && (
+                                <p className="text-xs text-gray-400 mt-1">Governing body: {formData.governing_body} · SCS applicable</p>
+                            )}
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="issue_date">Issue Date</Label>
