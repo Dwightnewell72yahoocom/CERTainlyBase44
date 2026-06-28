@@ -62,16 +62,15 @@ export default function Home() {
             {/* Header */}
             <div className="px-4 pt-10 pb-4 sticky top-0 z-10 shadow-md" style={{ backgroundColor: '#6b7040' }}>
                 <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
-                    <div>
-                        <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#E8A020' }}>
-                                <span className="text-xs font-black" style={{ color: '#6b7040' }}>SS</span>
-                            </div>
-                            <h1 className="text-2xl font-black leading-none">
-                                <span style={{ color: '#E8A020' }}>CERT</span><span style={{ color: '#f5eed8' }}>ainly</span>
-                            </h1>
+                    <div className="flex items-center gap-3">
+                        <img
+                            src="https://media.base44.com/images/public/692142275a8534a162072728/52e91b695_Untitleddesign.png"
+                            alt="Sound Solutions Pipeline DataCAT"
+                            className="h-12 w-auto object-contain"
+                        />
+                        <div className="text-xs font-medium leading-tight" style={{ color: 'rgba(245,238,216,0.9)' }}>
+                            Your tools.<br/>Your time.<br/>Your terms.
                         </div>
-                        <p className="text-xs mt-0.5 pl-10" style={{ color: 'rgba(245,238,216,0.55)' }}>Sound Solutions DataCAT</p>
                     </div>
                     <div className="flex items-center gap-2">
                         <ReminderManager certifications={certifications} />
