@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
-import { X, Clock, FileText, Shield, CheckCircle, AlertTriangle, Mail, Phone } from 'lucide-react';
+import React from 'react';
+import { X, Shield, CheckCircle, FileText, AlertTriangle } from 'lucide-react';
 
 const REASONS = [
   {
-    icon: AlertTriangle,
-    title: "NRCan doesn't remind you to renew.",
-    body: "Your certification expires and you get no warnings. This app alerts you at 180, 90, 60, 30, and 7 days out — plus when you're overdue. No more 'I didn't know.'",
-    color: '#A32D2D',
-  },
-  {
-    icon: FileText,
-    title: "Renewal paperwork takes 4+ hours.",
-    body: "Forms, SCS math, supervisor letters. We auto-fill NRCan forms from your logged work. Download a complete renewal package in one tap — what used to take a weekend takes 5 minutes.",
+    icon: Shield,
+    title: "Your signature. Your work. Your proof.",
+    body: "CGSB, NRCan, CWB — they only care about volume. But YOU need to prove YOUR work is yours. This app chains your signature to every inspection, every report, every job. Ironclad proof that stands up to audits.",
     color: '#6b7040',
   },
   {
-    icon: Shield,
-    title: "Your employer won't do this for you.",
-    body: "Employers track their paperwork, not yours. When your cert lapses, you're out of work — not them. This app puts control in your hands, not theirs.",
-    color: '#BA7517',
+    icon: CheckCircle,
+    title: "Free for technicians. Forever.",
+    body: "This app is free because you're not the customer — you're the partner. Use it daily, build your record, prove your work. We monetize by showing governing bodies the value of certified technicians like you.",
+    color: '#3B6D11',
   },
   {
-    icon: CheckCircle,
-    title: "Prove your status in 10 seconds.",
-    body: "Site supervisor asks for proof. Open the app. Show your certification card with live expiry countdown and SCS points. No digging through emails. Get to work.",
-    color: '#3B6D11',
+    icon: FileText,
+    title: "Renewal paperwork? Done in 5 minutes.",
+    body: "SCS points calculated. NRCan forms pre-populated. Experience logs exported. What used to take a weekend of hunting for records takes one tap. Because your time matters more than paperwork.",
+    color: '#E8A020',
+  },
+  {
+    icon: AlertTriangle,
+    title: "NRCan won't remind you — but we will.",
+    body: "Certification expires? You can't work. We alert you at 180, 90, 60, 30, and 7 days out. Not because NRCan cares — because YOU do. Stay current, stay working.",
+    color: '#A32D2D',
   },
 ];
 
@@ -39,7 +39,7 @@ export default function WhyThisApp({ onClose }) {
         <div className="sticky top-0 px-6 py-4 flex items-center justify-between border-b" style={{ backgroundColor: '#f7f4ee', borderColor: '#d1ccc0' }}>
           <div>
             <h2 className="text-lg font-black" style={{ color: '#6b7040' }}>Why CERTainly?</h2>
-            <p className="text-xs" style={{ color: '#999' }}>Because certification is your responsibility</p>
+            <p className="text-xs" style={{ color: '#999' }}>Because your work deserves proof</p>
           </div>
           <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-100">
             <X className="w-5 h-5" style={{ color: '#6b7040' }} />
@@ -66,14 +66,14 @@ export default function WhyThisApp({ onClose }) {
           {/* Contact CTA */}
           <div className="mt-6 pt-6 border-t" style={{ borderColor: '#d1ccc0' }}>
             <h3 className="font-black text-sm mb-3 text-center" style={{ color: '#6b7040' }}>
-              Still wondering if this is for you?
+              Who is this for?
             </h3>
             <div className="space-y-2">
               <p className="text-xs text-center" style={{ color: '#666' }}>
-                If you're an NDT technician certified by NRCan or CNSC, this app is for you.
+                If you're an NDT technician certified by NRCan, CNSC, CGSB, or CWB, this app is for you.
               </p>
               <p className="text-xs text-center" style={{ color: '#666' }}>
-                If you're not sure, skip the intro and explore — no commitment required.
+                Free forever. No subscriptions. No hidden fees. Just proof of your work.
               </p>
             </div>
           </div>

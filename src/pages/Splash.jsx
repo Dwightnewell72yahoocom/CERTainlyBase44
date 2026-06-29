@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle, Clock, FileText, Shield, AlertTriangle, ArrowRight } from 'lucide-react';
+import { CheckCircle, FileText, Shield, AlertTriangle, ArrowRight } from 'lucide-react';
 
 export default function Splash() {
   const navigate = useNavigate();
@@ -8,32 +8,32 @@ export default function Splash() {
 
   const slides = [
     {
-      icon: AlertTriangle,
-      title: "NRCan doesn't remind you to renew.",
-      subtitle: "Miss the deadline? You can't work.",
-      body: "Your certification expires and NRCan sends no warnings. This app tracks every expiry date and alerts you at 180, 90, 60, 30, and 7 days out — plus when you're overdue. No more 'I didn't know.'",
-      color: '#A32D2D',
-    },
-    {
-      icon: FileText,
-      title: "Renewal paperwork takes 4+ hours.",
-      subtitle: "Forms, SCS math, supervisor letters.",
-      body: "We auto-fill your NRCan forms from logged work. Download a complete renewal package in one tap — pre-filled forms, SCS point breakdown, experience log export. What used to take a weekend takes 5 minutes.",
+      icon: Shield,
+      title: "Your signature. Your work. Your proof.",
+      subtitle: "Signature chaining — the only thing that matters.",
+      body: "CGSB, NRCan, CWB — they only care about volume. But YOU need to prove YOUR work is yours. This app chains your signature to every inspection, every report, every job. Ironclad proof that stands up to audits.",
       color: '#6b7040',
     },
     {
-      icon: Shield,
-      title: "Your employer won't do this for you.",
-      subtitle: "It's YOUR certification. YOUR responsibility.",
-      body: "Employers track their paperwork, not yours. NRCan won't chase you. When your cert lapses, you're out of work — not them. This app puts control in your hands, not theirs.",
-      color: '#BA7517',
+      icon: CheckCircle,
+      title: "Free for technicians. Forever.",
+      subtitle: "No subscriptions. No hidden fees.",
+      body: "This app is free because you're not the customer — you're the partner. Use it daily, build your record, prove your work. We monetize by showing governing bodies the value of certified technicians like you.",
+      color: '#3B6D11',
     },
     {
-      icon: CheckCircle,
-      title: "Prove your status in 10 seconds.",
-      subtitle: "Site supervisor asks for proof. You deliver.",
-      body: "Open the app. Show your certification card with live expiry countdown and SCS points. No digging through emails. No 'I'll send it later.' You're certified — prove it and get to work.",
-      color: '#3B6D11',
+      icon: FileText,
+      title: "Renewal paperwork? Done in 5 minutes.",
+      subtitle: "Auto-filled forms from your logged work.",
+      body: "SCS points calculated. NRCan forms pre-populated. Experience logs exported. What used to take a weekend of hunting for records takes one tap. Because your time matters more than paperwork.",
+      color: '#E8A020',
+    },
+    {
+      icon: AlertTriangle,
+      title: "NRCan won't remind you — but we will.",
+      subtitle: "Never miss a renewal deadline again.",
+      body: "Certification expires? You can't work. We alert you at 180, 90, 60, 30, and 7 days out. Not because NRCan cares — because YOU do. Stay current, stay working.",
+      color: '#A32D2D',
     },
   ];
 
