@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle, FileText, Shield, AlertTriangle, ArrowRight } from 'lucide-react';
+import { Shield, ArrowRight } from 'lucide-react';
 
 export default function Splash() {
   const navigate = useNavigate();
@@ -9,31 +9,24 @@ export default function Splash() {
   const slides = [
     {
       icon: Shield,
-      title: "Your signature. Your work. Your proof.",
-      subtitle: "Signature chaining — the only thing that matters.",
-      body: "CGSB, NRCan, CWB — they only care about volume. But YOU need to prove YOUR work is yours. This app chains your signature to every inspection, every report, every job. Ironclad proof that stands up to audits.",
+      title: "Paper can't chain your signature.",
+      subtitle: "This app can.",
+      body: "CGSB, NRCan, CWB — they only care about volume. But when an audit comes, how do YOU prove the work is yours? Paper forms get lost. PDFs get edited. This app cryptographically chains your signature to every inspection, every timestamp, every job. Ironclad. Defensible. Yours.",
       color: '#6b7040',
     },
     {
-      icon: CheckCircle,
-      title: "Free for technicians. Forever.",
-      subtitle: "No subscriptions. No hidden fees.",
-      body: "This app is free because you're not the customer — you're the partner. Use it daily, build your record, prove your work. We monetize by showing governing bodies the value of certified technicians like you.",
+      icon: Shield,
+      title: "Your signature. Your proof. Period.",
+      subtitle: "The only value proposition that matters.",
+      body: "Everything else — expiry tracking, SCS logs, record exports — you can do with spreadsheets and calendar reminders. But only this app gives you signature chaining. Only this app proves YOUR work is YOURS. That's why it exists.",
       color: '#3B6D11',
     },
     {
-      icon: FileText,
-      title: "Your records. Organized. Exportable.",
-      subtitle: "SCS points, experience logs, certification history.",
-      body: "Log your work as you go. Track SCS points in real-time. Export everything you need for renewal — experience logs, point summaries, certification records. Attach them to your official NRCan forms. No more hunting for records.",
+      icon: Shield,
+      title: "Free for technicians. Forever.",
+      subtitle: "You're not the customer. You're the partner.",
+      body: "No subscriptions. No hidden fees. Use it daily to build your chain of proof. We monetize by showing governing bodies what certified technicians actually do — volume, methods, sectors. Your data proves your value. That's the deal.",
       color: '#E8A020',
-    },
-    {
-      icon: AlertTriangle,
-      title: "NRCan won't remind you — but we will.",
-      subtitle: "Never miss a renewal deadline again.",
-      body: "Certification expires? You can't work. We alert you at 180, 90, 60, 30, and 7 days out. Not because NRCan cares — because YOU do. Stay current, stay working.",
-      color: '#A32D2D',
     },
   ];
 

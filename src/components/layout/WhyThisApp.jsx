@@ -1,30 +1,24 @@
 import React from 'react';
-import { X, Shield, CheckCircle, FileText, AlertTriangle } from 'lucide-react';
+import { X, Shield } from 'lucide-react';
 
 const REASONS = [
   {
     icon: Shield,
-    title: "Your signature. Your work. Your proof.",
-    body: "CGSB, NRCan, CWB — they only care about volume. But YOU need to prove YOUR work is yours. This app chains your signature to every inspection, every report, every job. Ironclad proof that stands up to audits.",
+    title: "Paper can't chain your signature.",
+    body: "CGSB, NRCan, CWB — they only care about volume. But when an audit comes, how do YOU prove the work is yours? Paper forms get lost. PDFs get edited. This app cryptographically chains your signature to every inspection, every timestamp, every job. Ironclad. Defensible. Yours.",
     color: '#6b7040',
   },
   {
-    icon: CheckCircle,
-    title: "Free for technicians. Forever.",
-    body: "This app is free because you're not the customer — you're the partner. Use it daily, build your record, prove your work. We monetize by showing governing bodies the value of certified technicians like you.",
+    icon: Shield,
+    title: "Everything else is secondary.",
+    body: "Expiry tracking? You can use calendar reminders. SCS logs? Spreadsheets work. Record exports? Nice to have. But only this app gives you signature chaining. That's the only reason this app exists.",
     color: '#3B6D11',
   },
   {
-    icon: FileText,
-    title: "Your records. Organized. Exportable.",
-    body: "Log your work as you go. Track SCS points in real-time. Export everything you need for renewal — experience logs, point summaries, certification records. Attach them to your official NRCan forms. No more hunting for records.",
+    icon: Shield,
+    title: "Free for technicians. Forever.",
+    body: "No subscriptions. No hidden fees. You're not the customer — you're the partner. Use it daily to build your chain of proof. We monetize by showing governing bodies what certified technicians actually do. Your data proves your value. That's the deal.",
     color: '#E8A020',
-  },
-  {
-    icon: AlertTriangle,
-    title: "NRCan won't remind you — but we will.",
-    body: "Certification expires? You can't work. We alert you at 180, 90, 60, 30, and 7 days out. Not because NRCan cares — because YOU do. Stay current, stay working.",
-    color: '#A32D2D',
   },
 ];
 
@@ -39,7 +33,7 @@ export default function WhyThisApp({ onClose }) {
         <div className="sticky top-0 px-6 py-4 flex items-center justify-between border-b" style={{ backgroundColor: '#f7f4ee', borderColor: '#d1ccc0' }}>
           <div>
             <h2 className="text-lg font-black" style={{ color: '#6b7040' }}>Why CERTainly?</h2>
-            <p className="text-xs" style={{ color: '#999' }}>Because your work deserves proof</p>
+            <p className="text-xs" style={{ color: '#999' }}>One reason. Everything else is noise.</p>
           </div>
           <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-100">
             <X className="w-5 h-5" style={{ color: '#6b7040' }} />
@@ -73,7 +67,7 @@ export default function WhyThisApp({ onClose }) {
                 If you're an NDT technician certified by NRCan, CNSC, CGSB, or CWB, this app is for you.
               </p>
               <p className="text-xs text-center" style={{ color: '#666' }}>
-                Free forever. No subscriptions. No hidden fees. Just proof of your work.
+                Free forever. No subscriptions. One purpose: prove your work is yours.
               </p>
             </div>
           </div>
