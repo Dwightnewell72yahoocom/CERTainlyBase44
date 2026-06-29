@@ -1,23 +1,41 @@
 import React from 'react';
-import { X, Shield } from 'lucide-react';
+import { X, Shield, Check, Zap, DollarSign } from 'lucide-react';
 
 const REASONS = [
   {
     icon: Shield,
     title: "Paper can't chain your signature.",
-    body: "CGSB, NRCan, CWB — they only care about volume. But when an audit comes, how do YOU prove the work is yours? Paper forms get lost. PDFs get edited. This app cryptographically chains your signature to every inspection, every timestamp, every job. Ironclad. Defensible. Yours.",
+    points: [
+      "CGSB, NRCan, CWB only care about volume",
+      "When an audit comes — how do YOU prove the work is yours?",
+      "Paper forms get lost. PDFs get edited.",
+      "This app cryptographically chains your signature to every inspection, timestamp, and job",
+      "Ironclad. Defensible. Yours."
+    ],
     color: '#6b7040',
   },
   {
-    icon: Shield,
+    icon: Zap,
     title: "Everything else is secondary.",
-    body: "Expiry tracking? You can use calendar reminders. SCS logs? Spreadsheets work. Record exports? Nice to have. But only this app gives you signature chaining. That's the only reason this app exists.",
+    points: [
+      "Expiry tracking? Calendar reminders work.",
+      "SCS logs? Spreadsheets handle that.",
+      "Record exports? Nice to have.",
+      "Only this app gives you signature chaining.",
+      "That's the only reason this app exists."
+    ],
     color: '#3B6D11',
   },
   {
-    icon: Shield,
+    icon: DollarSign,
     title: "Free for technicians. Forever.",
-    body: "No subscriptions. No hidden fees. You're not the customer — you're the partner. Use it daily to build your chain of proof. We monetize by showing governing bodies what certified technicians actually do. Your data proves your value. That's the deal.",
+    points: [
+      "No subscriptions. No hidden fees.",
+      "You're not the customer — you're the partner.",
+      "Use it daily to build your chain of proof.",
+      "We monetize by showing governing bodies what certified technicians do.",
+      "Your data proves your value. That's the deal."
+    ],
     color: '#E8A020',
   },
 ];
@@ -42,7 +60,7 @@ export default function WhyThisApp({ onClose }) {
 
         {/* Content */}
         <div className="px-6 py-6 space-y-6">
-          {REASONS.map(({ icon: Icon, title, body, color }) => (
+          {REASONS.map(({ icon: Icon, title, points, color }) => (
             <div key={title} className="flex items-start gap-4">
               <div
                 className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md"
@@ -50,9 +68,16 @@ export default function WhyThisApp({ onClose }) {
               >
                 <Icon className="w-6 h-6" style={{ color: '#f7f4ee' }} />
               </div>
-              <div>
-                <h3 className="font-black text-sm mb-1" style={{ color: '#6b7040' }}>{title}</h3>
-                <p className="text-sm" style={{ color: '#555', lineHeight: 1.5 }}>{body}</p>
+              <div className="flex-1">
+                <h3 className="font-black text-sm mb-2" style={{ color: '#6b7040' }}>{title}</h3>
+                <ul className="space-y-1">
+                  {points.map((point, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm" style={{ color: '#555' }}>
+                      <Check className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: color }} />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           ))}
