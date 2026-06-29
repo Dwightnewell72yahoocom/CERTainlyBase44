@@ -189,30 +189,45 @@ export default function DownloadRenewalPackage({ cert }) {
           </div>
         </div>
 
-        {/* Step 2: QR Code for Mobile Access */}
+        {/* Step 2: Direct Links to Official NRCan Forms */}
         <div className="rounded-xl overflow-hidden border" style={{ borderColor: '#d1ccc0' }}>
           <div className="px-3 py-2 flex items-center gap-2" style={{ backgroundColor: '#f7f4ee' }}>
             <span className="w-5 h-5 rounded-full text-xs font-black flex items-center justify-center text-white flex-shrink-0" style={{ backgroundColor: '#6b7040' }}>2</span>
-            <p className="text-xs font-black" style={{ color: '#6b7040' }}>Scan for instant mobile access</p>
+            <p className="text-xs font-black" style={{ color: '#6b7040' }}>Download Official NRCan Forms</p>
           </div>
-          <div className="p-4 text-center space-y-3">
-            <div className="bg-white rounded-2xl p-4 inline-block shadow-lg" style={{ border: '2px solid #6b7040' }}>
-              <img 
-                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://app-692142275a8534a162072728.base44.app/nrcan-forms"
-                alt="QR code linking to NRCan forms page"
-                className="w-32 h-32"
-              />
-            </div>
+          <div className="p-3 space-y-2">
             <p className="text-xs" style={{ color: '#666' }}>
-              Scan with iPhone camera → opens all 3 NRCan forms instantly
+              These are the required NRCan forms — download, fill out, sign, and attach with the summary above.
             </p>
             <a
-              href="/nrcan-forms"
-              className="inline-block w-full h-11 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-transform active:scale-95"
-              style={{ backgroundColor: '#E8A020', color: '#fff' }}
+              href="https://natural-resources.canada.ca/sites/www.nrcan.gc.ca/files/scienceanddata/research-and-development/laboratories-and-test-facilities/non-destructive-testing/forms/8.2.1-075.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full h-11 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-transform active:scale-95"
+              style={{ backgroundColor: '#f0ede5', color: '#6b7040', border: '2px solid #6b7040' }}
             >
-              <ExternalLink className="w-4 h-4" />
-              Open Forms Page Directly
+              <Download className="w-4 h-4" />
+              Form 8.2.1-075 — Renewal Application (PDF)
+            </a>
+            <a
+              href="https://natural-resources.canada.ca/sites/www.nrcan.gc.ca/files/scienceanddata/research-and-development/laboratories-and-test-facilities/non-destructive-testing/forms/8.2.1-073.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full h-11 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-transform active:scale-95"
+              style={{ backgroundColor: '#f0ede5', color: '#6b7040', border: '2px solid #6b7040' }}
+            >
+              <Download className="w-4 h-4" />
+              Form 8.2.1-073 — SCS Points (PDF)
+            </a>
+            <a
+              href="https://natural-resources.canada.ca/sites/www.nrcan.gc.ca/files/scienceanddata/research-and-development/laboratories-and-test-facilities/non-destructive-testing/forms/8.2.1-002.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full h-11 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-transform active:scale-95"
+              style={{ backgroundColor: '#f0ede5', color: '#6b7040', border: '2px solid #6b7040' }}
+            >
+              <Download className="w-4 h-4" />
+              Form 8.2.1-002 — Code of Conduct (PDF)
             </a>
           </div>
         </div>
