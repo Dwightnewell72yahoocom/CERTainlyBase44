@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Search, Filter, Users } from "lucide-react";
+import { Plus, Search, Filter, Users, HelpCircle } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
@@ -14,12 +14,14 @@ import AddCertificationForm from "../components/certifications/AddCertificationF
 import ReminderManager from "../components/certifications/ReminderManager";
 import QuickLogSheet from "../components/dashboard/QuickLogSheet";
 import BottomNav from "../components/layout/BottomNav";
+import WhyThisApp from "../components/layout/WhyThisApp";
 
 export default function Home() {
     const [showForm, setShowForm] = useState(false);
     const [showQuickLog, setShowQuickLog] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('all');
+    const [showWhyApp, setShowWhyApp] = useState(false);
     const queryClient = useQueryClient();
 
     const { data: certifications = [], isLoading } = useQuery({
@@ -76,6 +78,14 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
+                        <button
+                            onClick={() => setShowWhyApp(true)}
+                            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-colors"
+                            style={{ backgroundColor: 'rgba(232,160,32,0.2)', color: '#E8A020' }}
+                        >
+                            <HelpCircle className="w-4 h-4" />
+                            Why this app?
+                        </button>
                         <ReminderManager certifications={certifications} />
                     </div>
                 </div>
@@ -195,6 +205,9 @@ export default function Home() {
 
             {/* Quick Log Sheet */}
             <QuickLogSheet open={showQuickLog} onClose={() => setShowQuickLog(false)} />
+
+            {/* Why This App Dialog */}
+            {showWhyApp && <WhyThisApp onClose={() => setShowWhyApp(false)} />}
 
             <BottomNav />
         </div>

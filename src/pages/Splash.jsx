@@ -1,59 +1,111 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CheckCircle, Clock, FileText, Shield, AlertTriangle, ArrowRight } from 'lucide-react';
 
 export default function Splash() {
   const navigate = useNavigate();
+  const [step, setStep] = useState(0);
 
-  useEffect(() => {
-    // Auto-advance after 3 seconds
-    const t = setTimeout(() => navigate('/dashboard'), 3000);
-    return () => clearTimeout(t);
-  }, [navigate]);
+  const slides = [
+    {
+      icon: Clock,
+      title: "Your certifications are expiring.",
+      subtitle: "And NRCan doesn't send reminders.",
+      body: "Miss a renewal? You can't work. This app tracks every expiry date and alerts you at 180, 90, 60, 30, and 7 days out — plus when you're overdue.",
+      color: '#E8A020',
+    },
+    {
+      icon: FileText,
+      title: "Renewal paperwork is a nightmare.",
+      subtitle: "Forms, points calculations, supervisor letters.",
+      body: "We auto-fill your NRCan forms from your logged work. Download a complete renewal package in one tap — no math, no hunting for records.",
+      color: '#3B6D11',
+    },
+    {
+      icon: Shield,
+      title: "Your employer won't do this for you.",
+      subtitle: "NRCan won't either.",
+      body: "Certification is YOUR responsibility. This app gives you control — track SCS points, generate compliance letters, and prove your status instantly.",
+      color: '#6b7040',
+    },
+    {
+      icon: CheckCircle,
+      title: "You're in control now.",
+      subtitle: "CERTainly — certification certainty.",
+      body: "Join technicians who never miss a renewal, never lose a record, and never wonder if they're compliant.",
+      color: '#E8A020',
+    },
+  ];
+
+  const CurrentIcon = slides[step].icon;
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-between py-16 px-8"
-      style={{ backgroundColor: '#5a5f38' }}>
-      
-      {/* Top: Logo placeholder */}
-      <div className="flex flex-col items-center gap-3 pt-8">
-        <div className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg"
-          style={{ backgroundColor: '#E8A020' }}>
-          <span className="text-3xl font-black" style={{ color: '#5a5f38' }}>SS</span>
-        </div>
-        <span className="text-sm font-semibold tracking-widest uppercase" style={{ color: '#E8A020' }}>
-          Sound Solutions DataCAT
-        </span>
+    <div className="fixed inset-0 flex flex-col" style={{ backgroundColor: '#f7f4ee' }}>
+      {/* Progress dots */}
+      <div className="flex items-center justify-center gap-2 pt-8">
+        {slides.map((_, i) => (
+          <div
+            key={i}
+            className="w-2 h-2 rounded-full transition-all"
+            style={{ backgroundColor: i === step ? '#6b7040' : '#d1ccc0' }}
+          />
+        ))}
       </div>
 
-      {/* Center: Brand */}
-      <div className="flex flex-col items-center gap-6 text-center">
-        <h1 className="text-6xl font-black leading-none tracking-tight">
-          <span style={{ color: '#E8A020' }}>CERT</span><span style={{ color: '#F5EDD6' }}>ainly</span>
-        </h1>
-        <div className="flex items-center gap-2">
-          {['COORDINATION', 'ACQUISITION', 'TRACKING'].map((word, i) => (
-            <React.Fragment key={word}>
-              <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: 'rgba(245,237,214,0.7)' }}>
-                {word}
-              </span>
-              {i < 2 && <span style={{ color: '#E8A020' }} className="text-xs">·</span>}
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
-
-      {/* Bottom: CTA */}
-      <div className="flex flex-col items-center gap-4 w-full">
-        <button
-          onClick={() => navigate('/dashboard')}
-          className="w-full max-w-xs py-4 rounded-2xl text-lg font-bold shadow-lg active:scale-95 transition-transform"
-          style={{ backgroundColor: '#E8A020', color: '#5a5f38' }}
+      {/* Content */}
+      <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
+        <div
+          className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 shadow-lg"
+          style={{ backgroundColor: slides[step].color }}
         >
-          Get Started
-        </button>
-        <span className="text-xs" style={{ color: 'rgba(245,237,214,0.5)' }}>
+          <CurrentIcon className="w-10 h-10" style={{ color: '#f7f4ee' }} />
+        </div>
+
+        <h1 className="text-2xl font-black mb-2" style={{ color: '#6b7040' }}>
+          {slides[step].title}
+        </h1>
+        <p className="text-sm font-semibold mb-4" style={{ color: '#BA7517' }}>
+          {slides[step].subtitle}
+        </p>
+        <p className="text-base" style={{ color: '#555', lineHeight: 1.6 }}>
+          {slides[step].body}
+        </p>
+      </div>
+
+      {/* Bottom: Navigation */}
+      <div className="px-6 pb-12 space-y-3">
+        {step < slides.length - 1 ? (
+          <button
+            onClick={() => setStep(s => s + 1)}
+            className="w-full py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-2 active:scale-95 transition-transform shadow-lg"
+            style={{ backgroundColor: '#6b7040', color: '#E8A020' }}
+          >
+            {step === slides.length - 2 ? "Let's Go" : "Next"}
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        ) : (
+          <button
+            onClick={() => navigate('/dashboard')}
+            className="w-full py-4 rounded-2xl font-black text-sm active:scale-95 transition-transform shadow-lg"
+            style={{ backgroundColor: '#E8A020', color: '#6b7040' }}
+          >
+            Open My Dashboard
+          </button>
+        )}
+
+        {step < slides.length - 1 && (
+          <button
+            onClick={() => navigate('/dashboard')}
+            className="w-full py-3 text-sm font-semibold"
+            style={{ color: '#999' }}
+          >
+            Skip intro
+          </button>
+        )}
+
+        <p className="text-xs text-center" style={{ color: '#ccc' }}>
           A Sound Solutions product
-        </span>
+        </p>
       </div>
     </div>
   );
