@@ -23,9 +23,9 @@ export default function Splash() {
     },
     {
       icon: FileText,
-      title: "Renewal paperwork? Done in 5 minutes.",
-      subtitle: "Auto-filled forms from your logged work.",
-      body: "SCS points calculated. NRCan forms pre-populated. Experience logs exported. What used to take a weekend of hunting for records takes one tap. Because your time matters more than paperwork.",
+      title: "Your records. Organized. Exportable.",
+      subtitle: "SCS points, experience logs, certification history.",
+      body: "Log your work as you go. Track SCS points in real-time. Export everything you need for renewal — experience logs, point summaries, certification records. Attach them to your official NRCan forms. No more hunting for records.",
       color: '#E8A020',
     },
     {
