@@ -8,32 +8,32 @@ export default function Splash() {
 
   const slides = [
     {
-      icon: Clock,
-      title: "Your certifications are expiring.",
-      subtitle: "And NRCan doesn't send reminders.",
-      body: "Miss a renewal? You can't work. This app tracks every expiry date and alerts you at 180, 90, 60, 30, and 7 days out — plus when you're overdue.",
-      color: '#E8A020',
+      icon: AlertTriangle,
+      title: "NRCan doesn't remind you to renew.",
+      subtitle: "Miss the deadline? You can't work.",
+      body: "Your certification expires and NRCan sends no warnings. This app tracks every expiry date and alerts you at 180, 90, 60, 30, and 7 days out — plus when you're overdue. No more 'I didn't know.'",
+      color: '#A32D2D',
     },
     {
       icon: FileText,
-      title: "Renewal paperwork is a nightmare.",
-      subtitle: "Forms, points calculations, supervisor letters.",
-      body: "We auto-fill your NRCan forms from your logged work. Download a complete renewal package in one tap — no math, no hunting for records.",
-      color: '#3B6D11',
+      title: "Renewal paperwork takes 4+ hours.",
+      subtitle: "Forms, SCS math, supervisor letters.",
+      body: "We auto-fill your NRCan forms from logged work. Download a complete renewal package in one tap — pre-filled forms, SCS point breakdown, experience log export. What used to take a weekend takes 5 minutes.",
+      color: '#6b7040',
     },
     {
       icon: Shield,
       title: "Your employer won't do this for you.",
-      subtitle: "NRCan won't either.",
-      body: "Certification is YOUR responsibility. This app gives you control — track SCS points, generate compliance letters, and prove your status instantly.",
-      color: '#6b7040',
+      subtitle: "It's YOUR certification. YOUR responsibility.",
+      body: "Employers track their paperwork, not yours. NRCan won't chase you. When your cert lapses, you're out of work — not them. This app puts control in your hands, not theirs.",
+      color: '#BA7517',
     },
     {
       icon: CheckCircle,
-      title: "You're in control now.",
-      subtitle: "CERTainly — certification certainty.",
-      body: "Join technicians who never miss a renewal, never lose a record, and never wonder if they're compliant.",
-      color: '#E8A020',
+      title: "Prove your status in 10 seconds.",
+      subtitle: "Site supervisor asks for proof. You deliver.",
+      body: "Open the app. Show your certification card with live expiry countdown and SCS points. No digging through emails. No 'I'll send it later.' You're certified — prove it and get to work.",
+      color: '#3B6D11',
     },
   ];
 

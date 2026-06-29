@@ -4,26 +4,26 @@ import { X, Clock, FileText, Shield, CheckCircle, AlertTriangle, Mail, Phone } f
 const REASONS = [
   {
     icon: AlertTriangle,
-    title: "NRCan doesn't remind you.",
-    body: "Miss a renewal deadline? Your certification lapses and you can't work. We send automated alerts at 180, 90, 60, 30, and 7 days before expiry — plus overdue notices.",
+    title: "NRCan doesn't remind you to renew.",
+    body: "Your certification expires and you get no warnings. This app alerts you at 180, 90, 60, 30, and 7 days out — plus when you're overdue. No more 'I didn't know.'",
     color: '#A32D2D',
   },
   {
     icon: FileText,
-    title: "Paperwork takes hours.",
-    body: "SCS point calculations, supervisor letters, form filling. We auto-populate NRCan forms from your logged work and generate compliance documents in one tap.",
+    title: "Renewal paperwork takes 4+ hours.",
+    body: "Forms, SCS math, supervisor letters. We auto-fill NRCan forms from your logged work. Download a complete renewal package in one tap — what used to take a weekend takes 5 minutes.",
     color: '#6b7040',
   },
   {
     icon: Shield,
-    title: "It's YOUR responsibility.",
-    body: "Employers won't track this. NRCan won't chase you. Certification maintenance is on you — this app gives you control and proof of compliance.",
+    title: "Your employer won't do this for you.",
+    body: "Employers track their paperwork, not yours. When your cert lapses, you're out of work — not them. This app puts control in your hands, not theirs.",
     color: '#BA7517',
   },
   {
     icon: CheckCircle,
-    title: "Instant verification.",
-    body: "Need to prove your status to a site supervisor? Share your certification card with live expiry countdown and SCS points — no digging through emails.",
+    title: "Prove your status in 10 seconds.",
+    body: "Site supervisor asks for proof. Open the app. Show your certification card with live expiry countdown and SCS points. No digging through emails. Get to work.",
     color: '#3B6D11',
   },
 ];
