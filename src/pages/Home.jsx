@@ -64,20 +64,20 @@ export default function Home() {
             {/* Header */}
             <div className="px-4 pt-6 pb-3 sticky top-0 z-10 shadow-md" style={{ backgroundColor: '#6b7040' }}>
                 <div className="max-w-4xl mx-auto">
-                    {/* Top row: Logo + App name */}
-                    <div className="flex items-center gap-3 mb-2">
-                        <img
-                            src="https://media.base44.com/images/public/692142275a8534a162072728/52e91b695_Untitleddesign.png"
-                            alt="CERTainly"
-                            className="h-10 w-auto object-contain"
-                        />
-                        <span className="text-lg font-bold" style={{ color: '#f5eed8' }}>CERTainly</span>
-                    </div>
-                    {/* Bottom row: Tagline + Why button */}
-                    <div className="flex items-center justify-between">
-                        <span className="text-xs font-medium" style={{ color: 'rgba(245,238,216,0.9)' }}>
-                            Your tools. Your time. Your terms.
-                        </span>
+                    <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                            <img
+                                src="https://media.base44.com/images/public/692142275a8534a162072728/52e91b695_Untitleddesign.png"
+                                alt="CERTainly"
+                                className="h-10 w-auto object-contain"
+                            />
+                            <div>
+                                <span className="text-lg font-bold block" style={{ color: '#f5eed8' }}>CERTainly</span>
+                                <span className="text-xs font-medium" style={{ color: 'rgba(245,238,216,0.9)' }}>
+                                    Your tools. Your time. Your terms.
+                                </span>
+                            </div>
+                        </div>
                         <div className="flex items-center gap-2">
                             <button
                                 onClick={() => setShowWhyApp(true)}
