@@ -102,7 +102,17 @@ export default function PdfFormMapper() {
     setLoading(true);
     try {
       const pdfjsLib = await loadPdfJs();
-      const loadingTask = pdfjsLib.getDocument(templateUrl);
+      // Fetch PDF through backend proxy to avoid CORS issues
+      const proxyRes = await base44.functions.invoke('proxyPdf', { url: templateUrl });
+      const proxyData = proxyRes.data;
+      if (proxyData.error) throw new Error(proxyData.error);
+      // Convert base64 to Uint8Array
+      const binaryString = atob(proxyData.base64);
+      const uint8 = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        uint8[i] = binaryString.charCodeAt(i);
+      }
+      const loadingTask = pdfjsLib.getDocument({ data: uint8 });
       const doc = await loadingTask.promise;
       setPdfDoc(doc);
 
