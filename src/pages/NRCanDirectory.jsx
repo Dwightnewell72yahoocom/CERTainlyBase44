@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { base44 } from "@/api/base44Client";
-import { Search, ExternalLink, Hash, Building2, MapPin, X } from "lucide-react";
+import { Search, ExternalLink, Hash, Building2, MapPin, X, MapPin as MapIcon } from "lucide-react";
+import { Link } from 'react-router-dom';
 import BottomNav from "@/components/layout/BottomNav";
 import { differenceInDays, parseISO } from "date-fns";
 import { useQuery } from '@tanstack/react-query';
@@ -215,6 +216,12 @@ export default function NRCanDirectory() {
           <ExternalLink className="w-4 h-4" />
           Open Official NRCan Directory
         </button>
+
+        <Link to="/pdf-form-mapper" className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-semibold text-sm"
+          style={{ backgroundColor: '#E8A020', color: '#6b7040' }}>
+          <MapIcon className="w-4 h-4" />
+          Open PDF Field Mapper
+        </Link>
       </div>
 
       <BottomNav />
