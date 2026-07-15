@@ -36,15 +36,25 @@ const FIELD_KEYS = [
   { key: 'custom', label: 'Custom / Other' },
 ];
 
-// Load pdf.js from CDN
+// Load pdf.js from CDN via script tag (UMD build — reliable in Vite)
 let pdfjsLibPromise = null;
 async function loadPdfJs() {
   if (pdfjsLibPromise) return pdfjsLibPromise;
-  pdfjsLibPromise = (async () => {
-    const mod = await import('https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/build/pdf.min.mjs');
-    mod.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/build/pdf.worker.min.mjs';
-    return mod;
-  })();
+  pdfjsLibPromise = new Promise((resolve, reject) => {
+    if (window.pdfjsLib) {
+      resolve(window.pdfjsLib);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js';
+    script.onload = () => {
+      const lib = window.pdfjsLib;
+      lib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+      resolve(lib);
+    };
+    script.onerror = () => reject(new Error('Failed to load PDF.js from CDN'));
+    document.head.appendChild(script);
+  });
   return pdfjsLibPromise;
 }
 
@@ -105,6 +115,7 @@ export default function PdfFormMapper() {
       setPages(renderedPages);
       toast.success(`Loaded ${doc.numPages} page(s)`);
     } catch (e) {
+      console.error('PDF load error:', e);
       toast.error('Failed to load PDF: ' + e.message);
     } finally {
       setLoading(false);
