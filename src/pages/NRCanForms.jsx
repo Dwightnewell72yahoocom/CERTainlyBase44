@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download, ExternalLink, FileText, CheckSquare, ClipboardList, ArrowLeft } from 'lucide-react';
+import { Download, ExternalLink, FileText, CheckSquare, ClipboardList, ArrowLeft, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import BottomNav from '@/components/layout/BottomNav';
 
@@ -103,6 +103,19 @@ export default function NRCanForms() {
             Email NRCan NDTCB
           </a>
         </div>
+        {/* Admin: PDF Field Mapper link */}
+        <Link to="/pdf-form-mapper"
+          className="bg-white rounded-2xl border p-4 flex items-center gap-3 active:scale-95 transition-transform"
+          style={{ borderColor: '#E8A020' }}
+        >
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'rgba(232,160,32,0.15)' }}>
+            <MapPin className="w-5 h-5" style={{ color: '#E8A020' }} />
+          </div>
+          <div>
+            <p className="text-sm font-black" style={{ color: '#6b7040' }}>PDF Field Mapper</p>
+            <p className="text-xs" style={{ color: '#999' }}>Map data fields onto PDF templates for auto-fill</p>
+          </div>
+        </Link>
       </div>
       <BottomNav />
     </div>

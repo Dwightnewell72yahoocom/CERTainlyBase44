@@ -1,0 +1,63 @@
+{
+  "name": "PdfFieldMap",
+  "type": "object",
+  "properties": {
+    "form_id": {
+      "type": "string",
+      "description": "NRCan form identifier e.g. 8.2.1-075"
+    },
+    "form_name": {
+      "type": "string",
+      "description": "Human readable form name"
+    },
+    "template_url": {
+      "type": "string",
+      "description": "URL to the blank PDF template"
+    },
+    "field_key": {
+      "type": "string",
+      "description": "Logical field key that maps to user data e.g. technician_name"
+    },
+    "field_label": {
+      "type": "string",
+      "description": "Human readable label for the field"
+    },
+    "page_number": {
+      "type": "number",
+      "description": "1-indexed page number"
+    },
+    "x": {
+      "type": "number",
+      "description": "X coordinate in PDF points from left"
+    },
+    "y": {
+      "type": "number",
+      "description": "Y coordinate in PDF points from bottom"
+    },
+    "width": {
+      "type": "number",
+      "default": 200
+    },
+    "font_size": {
+      "type": "number",
+      "default": 10
+    },
+    "align": {
+      "type": "string",
+      "enum": [
+        "left",
+        "center",
+        "right"
+      ],
+      "default": "left"
+    }
+  },
+  "required": [
+    "form_id",
+    "template_url",
+    "field_key",
+    "page_number",
+    "x",
+    "y"
+  ]
+}
