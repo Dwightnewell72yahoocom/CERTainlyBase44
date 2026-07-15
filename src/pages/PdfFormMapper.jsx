@@ -10,6 +10,24 @@ import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 
 // Predefined field keys that map to Certification/technician data
+const NRCAN_FORM_TEMPLATES = [
+  {
+    form_id: '8.2.1-075',
+    form_name: 'Renewal Application Form',
+    template_url: 'https://natural-resources.canada.ca/sites/admin/files/documents/2025-03/8.2.1-075%20-%20Renewal%20Application%20Form%20for%20Non-Destructive%20Testing%20Certification_0.pdf',
+  },
+  {
+    form_id: '8.2.1-073',
+    form_name: 'SCS Points Application Form',
+    template_url: 'https://natural-resources.canada.ca/sites/admin/files/documents/2025-03/8.2.1-073%20-%20Structured%20Credit%20System%20Application%20Form%20for%20Renewal_0.pdf',
+  },
+  {
+    form_id: '8.2.1-002',
+    form_name: 'Code of Conduct',
+    template_url: 'https://natural-resources.canada.ca/sites/admin/files/documents/2025-03/8.2.1-002%20-%20Code%20of%20Conduct_0.pdf',
+  },
+];
+
 const FIELD_KEYS = [
   { key: 'technician_name', label: 'Technician Full Name' },
   { key: 'technician_email', label: 'Technician Email' },
@@ -240,6 +258,27 @@ export default function PdfFormMapper() {
         {/* Setup panel */}
         <div className="rounded-2xl p-4 mb-4 shadow-sm" style={{ backgroundColor: 'white' }}>
           <h2 className="text-sm font-black mb-3" style={{ color: '#6b7040' }}>Step 1: Load a PDF Template</h2>
+          <div className="mb-3">
+            <Label className="text-xs font-bold mb-1" style={{ color: '#6b7040' }}>Quick-pick an NRCan form</Label>
+            <Select
+              value=""
+              onValueChange={(val) => {
+                const form = NRCAN_FORM_TEMPLATES.find(f => f.form_id === val);
+                if (form) {
+                  setFormId(form.form_id);
+                  setFormName(form.form_name);
+                  setTemplateUrl(form.template_url);
+                }
+              }}
+            >
+              <SelectTrigger className="rounded-xl"><SelectValue placeholder="Select a known NRCan form…" /></SelectTrigger>
+              <SelectContent>
+                {NRCAN_FORM_TEMPLATES.map(f => (
+                  <SelectItem key={f.form_id} value={f.form_id}>{f.form_id} — {f.form_name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
             <div>
               <Label className="text-xs font-bold mb-1" style={{ color: '#6b7040' }}>Form ID</Label>
