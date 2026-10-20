@@ -15,6 +15,7 @@ const RENEWAL_TOOLS = [
   { label: 'Renewal Checklist', sub: 'Step-by-step NRCan submission guide', path: '/renewal-checklist', Icon: CheckSquare },
   { label: 'Attestation Letter', sub: 'Generate NRCan-compliant supervisor letter', path: '/attestation-letter', Icon: FileText },
   { label: 'Verify Technician', sub: 'Look up NRCan certified personnel', path: '/nrcan-directory', Icon: Search },
+  { label: 'Preview Filled Form', sub: 'See a sample auto-filled NRCan form', path: '/pdf-preview', Icon: FileText },
 ];
 
 export default function RenewalPortal() {
