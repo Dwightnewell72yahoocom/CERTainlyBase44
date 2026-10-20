@@ -1,7 +1,17 @@
-import React from 'react';
-import { Download, ExternalLink, FileText, CheckSquare, ClipboardList, ArrowLeft, MapPin } from 'lucide-react';
+import React, { useState } from 'react';
+import { Download, ExternalLink, FileText, CheckSquare, ClipboardList, ArrowLeft, MapPin, Eye, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import BottomNav from '@/components/layout/BottomNav';
+import { generateFilledPdf } from '@/lib/generateFilledPdf';
+
+const SAMPLE_DATA = {
+  technician_name: 'John A. Smith',
+  technician_email: 'john.doe@example.com',
+  nrcan_id: 'NR-1234567',
+  certification_name: 'NDT - Ultrasonic Testing',
+  province: 'Alberta',
+  postal_code: 'T6X 0X9',
+};
 
 const NRCAN_FORMS = [
   {
@@ -28,6 +38,23 @@ const NRCAN_FORMS = [
 ];
 
 export default function NRCanForms() {
+  const [generating, setGenerating] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handlePreviewFilled = async (form) => {
+    setGenerating(true);
+    setError(null);
+    try {
+      const blob = await generateFilledPdf(form.code, form.url, SAMPLE_DATA);
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    } catch (err) {
+      setError(err.message || 'Failed to generate filled PDF');
+    } finally {
+      setGenerating(false);
+    }
+  };
+
   return (
     <div className="min-h-screen pb-24" style={{ backgroundColor: '#f7f4ee' }}>
       {/* Header */}
@@ -75,6 +102,15 @@ export default function NRCanForms() {
                 <Download className="w-4 h-4" />
                 Download PDF
               </a>
+              <button
+                onClick={() => handlePreviewFilled({ code, url })}
+                disabled={generating}
+                className="w-full h-11 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-transform active:scale-95 disabled:opacity-50"
+                style={{ backgroundColor: '#f0ede5', color: '#6b7040', border: '2px solid #6b7040' }}
+              >
+                {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Eye className="w-4 h-4" />}
+                {generating ? 'Generating...' : 'Preview Filled Form'}
+              </button>
             </div>
           ))}
         </div>
@@ -103,6 +139,12 @@ export default function NRCanForms() {
             Email NRCan NDTCB
           </a>
         </div>
+        {error && (
+          <div className="bg-red-50 rounded-2xl border border-red-200 p-4">
+            <p className="text-sm font-bold text-red-800">Error</p>
+            <p className="text-xs text-red-600 mt-1">{error}</p>
+          </div>
+        )}
         {/* Admin: PDF Field Mapper link */}
         <Link to="/pdf-form-mapper"
           className="bg-white rounded-2xl border p-4 flex items-center gap-3 active:scale-95 transition-transform"
