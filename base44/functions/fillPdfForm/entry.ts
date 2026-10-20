@@ -1,5 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 import { PDFDocument, StandardFonts, rgb } from 'npm:@cantoo/pdf-lib@1.17.1';
+import * as mupdf from 'npm:mupdf';
 
 Deno.serve(async (req) => {
   try {
@@ -7,14 +8,20 @@ Deno.serve(async (req) => {
     const user = await base44.auth.me();
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const { form_id, template_url, data, include_maps } = await req.json();
+    const { form_id, template_url, data } = await req.json();
 
     // Fetch the blank template PDF
     const templateRes = await fetch(template_url);
     if (!templateRes.ok) return Response.json({ error: `Template fetch failed: ${templateRes.status}` }, { status: 500 });
-    const templateBytes = await templateRes.arrayBuffer();
+    const templateBytes = new Uint8Array(await templateRes.arrayBuffer());
 
-    const pdfDoc = await PDFDocument.load(templateBytes, { ignoreEncryption: true });
+    // mupdf handles encrypted/compressed PDFs — load and re-encode so pdf-lib can parse it
+    const mupdfDoc = mupdf.Document.open(templateBytes, 'application/pdf');
+    const reencoded = mupdfDoc.toBuffer('application/pdf');
+    mupdfDoc.destroy();
+
+    // Now load the re-encoded PDF with pdf-lib (works since mupdf removes compressed object streams)
+    const pdfDoc = await PDFDocument.load(reencoded, { ignoreEncryption: true });
     const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const helveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
     const pages = pdfDoc.getPages();
