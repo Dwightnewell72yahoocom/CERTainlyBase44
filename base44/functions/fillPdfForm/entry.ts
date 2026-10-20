@@ -1,5 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-import { PDFDocument, StandardFonts, rgb } from 'npm:pdf-lib@1.17.1';
+import { PDFDocument, StandardFonts, rgb } from 'npm:@cantoo/pdf-lib@1.17.1';
 
 Deno.serve(async (req) => {
   try {
