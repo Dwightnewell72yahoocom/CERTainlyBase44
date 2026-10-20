@@ -13,6 +13,7 @@ import RenewalChecklist from './pages/RenewalChecklist';
 import NRCanForms from './pages/NRCanForms';
 import PdfFormMapper from './pages/PdfFormMapper';
 import PdfPreview from './pages/PdfPreview';
+import SignatureSetup from './pages/SignatureSetup';
 
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
@@ -86,6 +87,7 @@ const AuthenticatedApp = () => {
       <Route path="/nrcan-forms" element={<LayoutWrapper currentPageName="NRCanForms"><NRCanForms /></LayoutWrapper>} />
       <Route path="/pdf-form-mapper" element={<LayoutWrapper currentPageName="PdfFormMapper"><PdfFormMapper /></LayoutWrapper>} />
       <Route path="/pdf-preview" element={<LayoutWrapper currentPageName="PdfPreview"><PdfPreview /></LayoutWrapper>} />
+      <Route path="/signature-setup" element={<LayoutWrapper currentPageName="SignatureSetup"><SignatureSetup /></LayoutWrapper>} />
 
       <Route path="/splash" element={<Splash />} />
       <Route path="/dashboard" element={<LayoutWrapper currentPageName={mainPageKey}><MainPage /></LayoutWrapper>} />

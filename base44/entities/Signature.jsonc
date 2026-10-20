@@ -1,0 +1,62 @@
+{
+  "name": "Signature",
+  "type": "object",
+  "properties": {
+    "signature_image_uri": {
+      "type": "string",
+      "description": "URI to the stored signature PNG image (private storage)"
+    },
+    "full_name": {
+      "type": "string",
+      "description": "Name of the person whose signature this is"
+    },
+    "nrcan_id": {
+      "type": "string",
+      "description": "NRCan registration number"
+    }
+  },
+  "required": [
+    "signature_image_uri"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

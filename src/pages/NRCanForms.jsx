@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Download, ExternalLink, FileText, CheckSquare, ClipboardList, ArrowLeft, MapPin, Eye, Loader2 } from 'lucide-react';
+import { Download, ExternalLink, FileText, CheckSquare, ClipboardList, ArrowLeft, MapPin, Eye, Loader2, PenTool } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import BottomNav from '@/components/layout/BottomNav';
 import { generateFilledPdf } from '@/lib/generateFilledPdf';
@@ -156,6 +156,19 @@ export default function NRCanForms() {
           <div>
             <p className="text-sm font-black" style={{ color: '#6b7040' }}>Preview Filled Form</p>
             <p className="text-xs" style={{ color: '#999' }}>See a sample auto-filled NRCan form</p>
+          </div>
+        </Link>
+        {/* Signature setup link */}
+        <Link to="/signature-setup"
+          className="bg-white rounded-2xl border p-4 flex items-center gap-3 active:scale-95 transition-transform"
+          style={{ borderColor: '#6b7040' }}
+        >
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'rgba(107,112,64,0.08)' }}>
+            <PenTool className="w-5 h-5" style={{ color: '#6b7040' }} />
+          </div>
+          <div>
+            <p className="text-sm font-black" style={{ color: '#6b7040' }}>Set Up Your Signature</p>
+            <p className="text-xs" style={{ color: '#999' }}>Sign once, applied to all renewal forms</p>
           </div>
         </Link>
         {/* Admin: PDF Field Mapper link */}
