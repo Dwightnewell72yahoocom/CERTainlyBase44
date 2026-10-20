@@ -31,7 +31,7 @@ export async function generateFilledPdf(formId, templateUrl, data) {
   }
 
   // 2. Fetch the PDF template (via proxy to avoid CORS)
-  const proxyRes = await base44.functions.invoke('proxyPdf', { body: { url: templateUrl } });
+  const proxyRes = await base44.functions.invoke('proxyPdf', { url: templateUrl });
   const pdfBytes = Uint8Array.from(atob(proxyRes.base64), (c) => c.charCodeAt(0));
 
   // 3. Load with pdfjs-dist (handles encryption + compressed object streams)
