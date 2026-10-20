@@ -78,17 +78,17 @@ export default function Splash() {
           </button>
         ) : (
           <button
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate('/onboarding')}
             className="w-full py-4 rounded-2xl font-black text-sm active:scale-95 transition-transform shadow-lg"
             style={{ backgroundColor: '#E8A020', color: '#6b7040' }}
           >
-            Open My Dashboard
+            Set Up My Profile
           </button>
         )}
 
         {step < slides.length - 1 && (
           <button
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate('/onboarding')}
             className="w-full py-3 text-sm font-semibold"
             style={{ color: '#999' }}
           >
