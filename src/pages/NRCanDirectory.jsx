@@ -82,22 +82,46 @@ export default function NRCanDirectory() {
     queryFn: () => base44.entities.NRCanTechnician.list(),
   });
 
+  // Smart-parse the search query: extract province/method tokens, rest is text
+  const parsed = (() => {
+    const raw = query.trim();
+    if (!raw) return { text: '', methods: [], provinces: [] };
+    const tokens = raw.split(/[\s,]+/).filter(Boolean);
+    const textParts = [];
+    const methods = [];
+    const provinces = [];
+    for (const token of tokens) {
+      const upper = token.toUpperCase().replace(/[.,#]/g, '');
+      if (METHODS.includes(upper)) methods.push(upper);
+      else if (PROVINCES.includes(upper)) provinces.push(upper);
+      else if (upper === 'REG') continue;
+      else textParts.push(token);
+    }
+    return { text: textParts.join(' ').toLowerCase(), methods, provinces };
+  })();
+
+  // Merge chip-selected filters with query-parsed filters
+  const activeMethods = [...new Set([...(methodFilter ? [methodFilter] : []), ...parsed.methods])];
+  const activeProvinces = [...new Set([...(provinceFilter ? [provinceFilter] : []), ...parsed.provinces])];
+
   // Live filter: runs instantly on every state change
   const filtered = allTechs.filter(tech => {
-    const q = query.trim().toLowerCase();
-    if (q) {
+    // Text search on remaining tokens
+    if (parsed.text) {
       const match =
-        tech.full_name?.toLowerCase().includes(q) ||
-        tech.reg_number?.toLowerCase().includes(q) ||
-        tech.employer?.toLowerCase().includes(q) ||
-        tech.city?.toLowerCase().includes(q);
+        tech.full_name?.toLowerCase().includes(parsed.text) ||
+        tech.reg_number?.toLowerCase().includes(parsed.text) ||
+        tech.employer?.toLowerCase().includes(parsed.text) ||
+        tech.city?.toLowerCase().includes(parsed.text);
       if (!match) return false;
     }
-    if (methodFilter) {
-      const hasMeth = tech.methods?.some(m => m.method === methodFilter);
-      if (!hasMeth) return false;
+    // Method filter: technician must have ALL selected methods
+    if (activeMethods.length > 0) {
+      const techMethods = new Set((tech.methods || []).map(m => m.method));
+      if (!activeMethods.every(m => techMethods.has(m))) return false;
     }
-    if (provinceFilter && tech.province !== provinceFilter) return false;
+    // Province filter
+    if (activeProvinces.length > 0 && !activeProvinces.includes(tech.province)) return false;
     return true;
   });
 
@@ -117,7 +141,7 @@ export default function NRCanDirectory() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
             className="w-full pl-10 pr-10 py-3 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-amber-400"
-            placeholder="Name, Reg#, City, or Employer…"
+            placeholder="Name, Reg#, City, Province, Method… e.g. Dwight Newell BC UT MT"
             value={query}
             onChange={e => setQuery(e.target.value)}
           />
