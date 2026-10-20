@@ -1,8 +1,7 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.54';
 import { PDFDocument, StandardFonts, rgb } from 'npm:@cantoo/pdf-lib@1.17.1';
-import * as mupdf from 'npm:mupdf';
 
-Deno.serve(async (req) => {
+export default async function(req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
@@ -11,17 +10,23 @@ Deno.serve(async (req) => {
     const { form_id, template_url, data } = await req.json();
 
     // Fetch the blank template PDF
-    const templateRes = await fetch(template_url);
+    const templateRes = await fetch(template_url, { signal: AbortSignal.timeout(15000) });
     if (!templateRes.ok) return Response.json({ error: `Template fetch failed: ${templateRes.status}` }, { status: 500 });
     const templateBytes = new Uint8Array(await templateRes.arrayBuffer());
 
-    // mupdf handles encrypted/compressed PDFs — load and re-encode so pdf-lib can parse it
-    const mupdfDoc = mupdf.Document.open(templateBytes, 'application/pdf');
-    const reencoded = mupdfDoc.toBuffer('application/pdf');
-    mupdfDoc.destroy();
+    // Load with pdf-lib (ignoreEncryption handles password-protected PDFs)
+    // Note: NRCan PDFs with compressed object streams may not parse here —
+    // the client-side generateFilledPdf.js (pdfjs-dist) handles those cases.
+    let pdfDoc;
+    try {
+      pdfDoc = await PDFDocument.load(templateBytes, { ignoreEncryption: true });
+    } catch (parseError) {
+      return Response.json({
+        error: 'Could not parse this PDF template server-side. NRCan forms with compressed object streams require the client-side renderer (generateFilledPdf.js).',
+        detail: parseError.message
+      }, { status: 422 });
+    }
 
-    // Now load the re-encoded PDF with pdf-lib (works since mupdf removes compressed object streams)
-    const pdfDoc = await PDFDocument.load(reencoded, { ignoreEncryption: true });
     const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const helveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
     const pages = pdfDoc.getPages();
@@ -63,16 +68,14 @@ Deno.serve(async (req) => {
 
     const filledBytes = await pdfDoc.save();
 
-    const responseBlob = new Response(filledBytes, {
+    return new Response(filledBytes, {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${form_id}-filled.pdf"`,
       },
     });
-
-    return responseBlob;
   } catch (error) {
     return Response.json({ error: error.message, stack: error.stack?.slice(0, 500) }, { status: 500 });
   }
-});
+}
